@@ -1,0 +1,36 @@
+CREATE TABLE Peli (
+     PelinNimi varchar(50) NOT NULL ,
+     Julkaisuvuosi numeric(4) NOT NULL ,
+     Tekijä Varchar(50) NOT NULL,
+     MilloinLisätty timestamp(8) NOT NULL ,
+     Pelialusta varchar(50) NOT NULL ,
+     arvosana numeric(2) ,
+     PRIMARY KEY (PelinNimi) ,
+     FOREIGN KEY (Pelialusta) ,
+     );
+
+CREATE TABLE Arvostelu (
+     PelinNimi varchar(50) NOT NULL ,
+     Julkaisuvuosi numeric(4) NOT NULL ,
+     arvosana numeric(2) NOT NULL,
+     ArvostelunLisaysPaiva timestamp(8) NOT NULL ,
+     PRIMARY KEY (PelinNimi) ,
+     );
+
+CREATE TABLE ArvosteluKommentti (
+     PelinNimi varchar(50) NOT NULL ,
+     arvosana numeric(2) NOT NULL,
+     kuvailu varchar(300) NOT NULL ,
+     PRIMARY KEY (PelinNimi) ,
+     );
+
+CREATE TABLE Kommentti (
+     PelinNimi varchar(50) NOT NULL ,
+     Kommentti varchar(300) NOT NULL,
+     PRIMARY KEY (PelinNimi) ,
+     );
+
+CREATE TABLE Pelialusta (
+     Pelialusta varchar(50) NOT NULL,
+     PRIMARY KEY (Pelialusta) ,
+     );
