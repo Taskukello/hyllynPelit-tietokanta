@@ -1,12 +1,100 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
     <servlet>
-        <servlet-name>YhteysTesti</servlet-name>
-        <servlet-class>Yhteystestit.YhteysTesti</servlet-class>
+        <servlet-name>Pelit</servlet-name>
+        <servlet-class>HyllynPelit.Servlets.Pelit</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Login</servlet-name>
+        <servlet-class>HyllynPelit.Servlets.Login</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Etusivu</servlet-name>
+        <servlet-class>HyllynPelit.Servlets.Etusivu</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Kommentit</servlet-name>
+        <servlet-class>HyllynPelit.Servlets.Kommentit</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Arvostelut</servlet-name>
+        <servlet-class>HyllynPelit.Servlets.Arvostelut</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Kommentti</servlet-name>
+        <servlet-class>HyllynPelit.Servlets.Kommentti</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LisaaArvostelu</servlet-name>
+        <servlet-class>HyllynPelit.Servlets.LisaaArvostelu</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>MuokkaaArvostelua</servlet-name>
+        <servlet-class>HyllynPelit.Servlets.MuokkaaArvosteluja</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>PelinLisays</servlet-name>
+        <servlet-class>HyllynPelit.Servlets.PelinLisays</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>PelinMuokkaus</servlet-name>
+        <servlet-class>HyllynPelit.Servlets.PelinMuokkaus</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>KirjauduUlos</servlet-name>
+        <servlet-class>HyllynPelit.Servlets.KirjauduUlos</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ApuKirjaus</servlet-name>
+        <servlet-class>HyllynPelit.Servlets.ApuKirjaus</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>YhteysTesti</servlet-name>
-        <url-pattern>/YhteysTesti</url-pattern>
+        <servlet-name>Pelit</servlet-name>
+        <url-pattern>/Pelit</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Login</servlet-name>
+        <url-pattern>/Login</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Etusivu</servlet-name>
+        <url-pattern>/Etusivu</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Kommentit</servlet-name>
+        <url-pattern>/Kommentit</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Arvostelut</servlet-name>
+        <url-pattern>/Arvostelut</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Kommentti</servlet-name>
+        <url-pattern>/Kommentti</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LisaaArvostelu</servlet-name>
+        <url-pattern>/LisaaArvostelu</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MuokkaaArvostelua</servlet-name>
+        <url-pattern>/MuokkaaArvostelua</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PelinLisays</servlet-name>
+        <url-pattern>/PelinLisays</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PelinMuokkaus</servlet-name>
+        <url-pattern>/PelinMuokkaus</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>KirjauduUlos</servlet-name>
+        <url-pattern>/KirjauduUlos</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ApuKirjaus</servlet-name>
+        <url-pattern>/ApuKirjaus</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
@@ -14,6 +102,7 @@
         </session-timeout>
     </session-config>
     <welcome-file-list>
+        <welcome-file>Etusivu</welcome-file>
         <welcome-file>Etusivu.jsp</welcome-file>
     </welcome-file-list>
 </web-app>

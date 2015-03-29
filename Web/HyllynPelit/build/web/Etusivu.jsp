@@ -1,26 +1,46 @@
 
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page contentType="text/html" pageEncoding="UTF-8" trimDirectiveWhitespaces="true" %>
+<%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
+
+
+
 <!DOCTYPE html>
+
 <html>
     <head>
+
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link href="css/bootstrap.css" rel="stylesheet">
         <link href="css/bootstrap-theme.css" rel="stylesheet">
         <link href="css/main.css" rel="stylesheet">
+        <t:kirjautunut pageTitle="Etusivu">
+
+        </t:kirjautunut>
+
         <title>Etusivu</title>
     </head>
     <body>
         <h1>Etusivu</h1>
+        <t:kirjauduNappi pageTitle="Etusivu">
+
+        </t:kirjauduNappi>
         <ul class="nav nav-tabs">
-            <li class="active"><a href="Etusivu.jsp"> Etusivu </a></li>
-            <li><a href="HTML-demo/Pelit.jsp">Pelit</a></li>
-            <li> <a href="HTML-demo/Arvostelut.jsp">Arvostelut</a></li>
-            <li><a href="HTML-demo/Kommentit.jsp">Kommentit</a></li>
+            <li class="active"><a> Etusivu </a></li>
+            <li><a href="${pageContext.request.contextPath}/Pelit">Pelit</a></li>
+            <li> <a href="${pageContext.request.contextPath}/Arvostelut">Arvostelut</a></li>
+            <li><a href="${pageContext.request.contextPath}/Kommentit">Kommentit</a></li>
         </ul>
         <h3> Tietokannan kuvaus </h3>
-        <div>Tähän tulee myöhemmin lyhyt kuvaus tietokannasta. HUOM! käyttöliittymässä on tehty kaikki minkä
-            voi järjellisesti tehdä ilman toimivaa tietokantaa ja sen järjestelmää. Kaikki näyvillä oleva teksi
-        on vain esimerkki miltä lopputulos tulee sunnilleen näyttämään.</div>
+        <div>Tähän tulee myöhemmin lyhyt kuvaus tietokannasta. HUOM! Toistaiseksi miltä tahansa sivulta kirjautuminen tulee uudelleenohjaamaan.</div>
+        <div>käyttäjän etusivulle. Tämä tulee muuttumaan. Käyttäjätunnuksilla ei myöskään pysty tekemään vielä mitään
+            joten tässä on testi käyttäjätunnukset sivun tarkastamiseen: tunnus: test2, salasana: test3.</div>
+        <div>sivu Apukirjaus myös tekee tällä hetkin saman kuin kuin Kirjautuminen, mutta tämän tulee jatkossa</div>
+        <div>muuttumaan. Jatkossa Apukirjaus tulee siirtämään käyttäjän takaisin sivulle josta hän sinne on joutunut</div>
+        <div>(eli heti kun keksin miten se tehdään ilman miljoonaa jsp tiedostoa).</div>
     </body>
 </html>
+
+
+

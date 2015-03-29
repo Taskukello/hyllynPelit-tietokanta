@@ -35,3 +35,11 @@ CREATE TABLE Kommentti (
      );
 
 
+CREATE TABLE Kayttaja (
+     id SERIAL PRIMARY KEY,
+     tunnus varchar(50),
+     salasana Varchar(50)
+
+     );
+
+
