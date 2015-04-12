@@ -2,8 +2,14 @@ package HyllynPelit.Servlets;
 
 import HyllynPelit.Models.Kayttaja;
 import HyllynPelit.Models.OnkoKirjautunut;
+import HyllynPelit.Peli;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.naming.NamingException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -27,9 +33,14 @@ public class LisaaArvostelu extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, NamingException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
+        
+        
+        List<Peli> pelit = Peli.getPelit();
+        request.setAttribute("pelit", pelit);
+        
         RequestDispatcher dispatcher = request.getRequestDispatcher("LisaaArvostelu.jsp");
         Kayttaja kirjautunut = (Kayttaja) session.getAttribute("Kirjautunut");
         OnkoKirjautunut k = new OnkoKirjautunut();
@@ -50,7 +61,13 @@ public class LisaaArvostelu extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (NamingException ex) {
+            Logger.getLogger(LisaaArvostelu.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(LisaaArvostelu.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -64,7 +81,13 @@ public class LisaaArvostelu extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (NamingException ex) {
+            Logger.getLogger(LisaaArvostelu.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(LisaaArvostelu.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

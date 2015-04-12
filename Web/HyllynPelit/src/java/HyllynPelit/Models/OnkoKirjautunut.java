@@ -24,4 +24,13 @@ public class OnkoKirjautunut {
 
     }
 
+    public boolean onkoKirjautunutBoolean(Kayttaja kirjautunut) {
+
+        boolean palautus;
+
+        palautus = kirjautunut != null;
+        return palautus;
+
+    }
+
 }

@@ -5,6 +5,7 @@
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
 <html>
@@ -42,15 +43,34 @@
             <li class="active"> <a>Arvostelut</a></li>
             <li><a href="${pageContext.request.contextPath}/Kommentit">Kommentit</a></li> 
         </ul>
-        <h6>Pelejä yhteensä: 0</h6>
+        <c:if test="${ilmoitus != null}">
+            <div class="alert alert-info">${ilmoitus}</div>
+        </c:if>
+        <h6>Rivejä yhteensä: <c:out value="${ArvosteluidenMaara}"/></h6>
+
+
         <c:if test="${fn:contains(KirjautumisTilanne, 'Et ole kirjautunut sisään')}">
             <a class="btn btn-default" href="ApuKirjaus.jsp" role="button" style="float: right;" >Lisää Arvostelu</a>
             <a class="btn btn-default" href="ApuKirjaus.jsp" role="button" style="float: right; " value="muokkaus">Muokkaa</a>
         </c:if>
         <c:if test="${fn:contains(KirjautumisTilanne, 'Kirjautunut sisään käyttäjällä: ')}">
             <a class="btn btn-default" href="${pageContext.request.contextPath}/LisaaArvostelu" role="button" style="float: right;" >Lisää Arvostelu</a>
-            <a class="btn btn-default" href="${pageContext.request.contextPath}/MuokkaaArvosteluja" role="button" style="float: right; " value="muokkaus">Muokkaa</a>
+            <div class="form-group" style="float: right; ">
+                <form class="form-horizonal" role="form" action="MuokkaaArvosteluja" method="POST">
+                    <select name="muokattavanNimi">
+                        <c:forEach var="Peli" items="${pelit}">
+                            <option value="${Peli.peli}">${Peli.peli}</option>
+
+                        </c:forEach>    
+
+                    </select>
+                        <button type="submit" class="btn btn-default">Muokkaa</button>
+                </form>
+            </div>
+
         </c:if>
+
+
         <table class="table table-bordered">
             <thead>
                 <tr>
@@ -58,9 +78,37 @@
                     <th>Julkaisuvuosi</th>
                     <th>Arvostelu</th>
                     <th>Arvostelun lisäyspäivä</th>
+                    <th>Lisääjä</th>
 
 
 
+                </tr>
+                <tr>
+                    <TD> <c:forEach var="Arvostelu" items="${arv}">
+                            <div class="Arvostelu"></div>
+                            <c:out value="${Arvostelu.nimi}"/>
+                        </c:forEach>
+                    </TD>
+                    <TD> <c:forEach var="Arvostelu" items="${arv}">
+                            <div class="Arvostelu"></div>
+                            <c:out value="${Arvostelu.vuosi}"/>
+                        </c:forEach>
+                    </TD>
+                    <TD> <c:forEach var="Arvostelu" items="${arv}">
+                            <div class="Arvostelu"></div>
+                            <c:out value="${Arvostelu.arvosana}"/>
+                        </c:forEach>
+                    </TD>
+                    <TD> <c:forEach var="Arvostelu" items="${arv}">
+                            <div class="Arvostelu"></div>
+                            <c:out value="${Arvostelu.lisayspaiva}"/>
+                        </c:forEach>
+                    </TD>
+                    <TD> <c:forEach var="Arvostelu" items="${arv}">
+                            <div class="Arvostelu"></div>
+                            <c:out value="${Arvostelu.tunnus}"/>
+                        </c:forEach>
+                    </TD>
                 </tr>
             </thead>
         </table>

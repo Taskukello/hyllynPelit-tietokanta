@@ -1,6 +1,9 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8" trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
 <html>
@@ -9,7 +12,7 @@
         <link href="css/bootstrap.css" rel="stylesheet">
         <link href="css/bootstrap-theme.css" rel="stylesheet">
         <link href="css/main.css" rel="stylesheet">
-        
+
         <title>Lisaa Arvostelu</title>
     </head>
     <body>
@@ -18,33 +21,26 @@
             <li><a href="${pageContext.request.contextPath}/Etusivu"> Etusivu </a></li>
             <li> <a href="${pageContext.request.contextPath}/Pelit">Pelit</a></li>
             <li> <a href="${pageContext.request.contextPath}/Arvostelut">Arvostelut</a></li>
-             <li><a href="${pageContext.request.contextPath}/Kommentit">Kommentit</a></li>
+            <li><a href="${pageContext.request.contextPath}/Kommentit">Kommentit</a></li>
         </ul>
 
         <div class="container" style="float: left;">
-            <form class="form-horizonal" role="form" action="Arvostelut.jsp" method="POST">
+            <form class="form-horizonal" role="form" action="Arvostelunlisaily" method="POST">
+
                 <div class="form-group">
-                    <label for="inputGame" class="col-md-2 control-label">Peli</label>
-                    <select>
-                        <option value="Esimerkki.">Esimerkki.</option>
-                        <option value="Mass effect">Mass Effect</option>
-                        <option value="Dragon Age">Dragon Age</option>
-                        <option value="empire at war">empire at war</option>
+                    <label>Pelin Nimi</label>
+                    <select name="PelinNimi">
+                        <c:forEach var="Peli" items="${pelit}">
+                            <option value="${Peli.peli}">${Peli.peli}</option>
+                        </c:forEach>
                     </select>
-                </div>
-                <h4>Tai:</h4>
-                <div class="form-group">
 
-                    <label for="inputGameN" class="col-md-2 control-label">Kirjoita nimi:</label>
-                    <div class="col-md-10">
-                        <input type="Pelin nimi" class="form-control" id="inputGameN" name="Kirjoita nimi" 
-                               placeholder="Pelin nimi">
-                    </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="inputGamescore" class="col-md-2 control-label">Arviointi</label>
-                    <select>
+                    <label>Arvosana</label>
+                    <select name="arvosana">
+                        
                         <option value="1">1.</option>
                         <option value="2">2.</option>
                         <option value="3">3.</option>
@@ -54,7 +50,6 @@
                         <option value="8">8.</option>
                         <option value="9">9.</option>
                         <option value="10">10.</option>
-
                     </select>
 
                 </div>

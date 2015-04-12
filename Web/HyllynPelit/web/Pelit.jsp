@@ -3,6 +3,7 @@
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -44,18 +45,35 @@
         <div>
 
         </div>
-
-        <h6>Pelejä yhteensä: 0</h6>
+        <c:if test="${ilmoitus != null}">
+            <div class="alert alert-info">${ilmoitus}</div>
+        </c:if>
+        <h6>Pelejä yhteensä: <c:out value="${pelienMaara}"/></h6>
         <div>
             <c:if test="${fn:contains(KirjautumisTilanne, 'Et ole kirjautunut sisään')}">
-                <a class="btn btn-default" href="ApuKirjaus.jsp" role="button" style="float: right;">Muokkaa</a>  
                 <a class="btn btn-default" href="ApuKirjaus.jsp" role="button" style="float: right;">Kommentti</a>
                 <a class="btn btn-default" href="ApuKirjaus.jsp" role="button" style="float: right;">Lisää peli</a>
+                <a class="btn btn-default" href="ApuKirjaus.jsp" role="button" style="float: right;">Muokkaa</a>  
             </c:if>
             <c:if test="${fn:contains(KirjautumisTilanne, 'Kirjautunut sisään käyttäjällä: ')}">
-                <a class="btn btn-default" href="${pageContext.request.contextPath}/PelinMuokkaus" role="button" style="float: right;">Muokkaa</a>  
+
                 <a class="btn btn-default" href="${pageContext.request.contextPath}/Kommentti" role="button" style="float: right;">Kommentti</a>
-                <a class="btn btn-default" href="${pageContext.request.contextPath}/PelinLisays" role="button" style="float: right;">Lisää peli</a>
+                <a class="btn btn-default" href="PelinLisays.jsp" role="button" style="float: right;">Lisää peli</a>
+
+                <div class="form-group" style="float: right; ">
+                    <form class="form-horizonal" role="form" action="PelitValinnanUudelleenOhjaus" method="POST">
+                        <select name="muokattavanNimi">
+                            <c:forEach var="Peli" items="${pelit}">
+                                <option value="${Peli.peli}">${Peli.peli}</option>
+                            </c:forEach>                            
+                        </select>
+                        <button type="submit" class="btn btn-default" name="action" value="muokkaa">Muokkaa</button>
+                        <button type="submit" class="btn btn-default" name="action" value="Kommentti">Lisää Kommentti</button>
+                        <c:if test="${fn:contains(oikeus, 'Admin')}">
+                            <button type="submit" class="btn btn-default" name="action" value="Poista">Poista</button>
+                        </c:if>
+                    </form>
+                </div>
             </c:if>
         </div>
 
@@ -69,6 +87,33 @@
                     <th>Milloin lisätty</th>
                     <th>PeliAlusta</th>
                     <th>Arvosana</th>
+                </tr>
+                <tr>
+                    <TD> <c:forEach var="Peli" items="${pelit}">
+                            <div class="Peli"></div>
+                            <c:out value="${Peli.peli}"/>
+                        </c:forEach>
+                    </TD>
+                    <TD> <c:forEach var="Peli" items="${pelit}">
+                            <div class="Peli"></div>
+                            <c:out value="${Peli.vuosi}"/>
+                        </c:forEach>
+                    </TD>
+                    <TD> <c:forEach var="Peli" items="${pelit}">
+                            <div class="Peli"></div>
+                            <c:out value="${Peli.tekija}"/>
+                        </c:forEach>
+                    </TD>
+                    <TD> <c:forEach var="Peli" items="${pelit}">
+                            <div class="Peli"></div>
+                            <c:out value="${Peli.lisays}"/>
+                        </c:forEach>
+                    </TD>
+                    <TD> <c:forEach var="Peli" items="${pelit}">
+                            <div class="Peli"></div>
+                            <c:out value="${Peli.alusta}"/>
+                        </c:forEach>
+                    </TD>
                 </tr>
             </thead>
         </table>

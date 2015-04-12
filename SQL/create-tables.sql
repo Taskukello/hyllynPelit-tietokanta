@@ -6,20 +6,22 @@ CREATE TABLE Peli (
      PelinNimi varchar(50) PRIMARY KEY ,
      Julkaisuvuosi numeric(4) NOT NULL ,
      Tekijä Varchar(50) NOT NULL,
-     MilloinLisätty date NOT NULL ,
+     MilloinLisätty timestamp(6) NOT NULL ,
      Pelialusta varchar(50) references Pelialusta(Pelialusta) 
      );
 
 CREATE TABLE Arvostelu (
      id SERIAL PRIMARY KEY,
-     PelinNimi varchar(50) references Peli(PelinNimi),
+     PelinNimi varchar(50) NOT NULL ,
      Julkaisuvuosi numeric(4) NOT NULL ,
      arvosana numeric(2) NOT NULL,
-     ArvostelunLisaysPaiva timestamp(6) NOT NULL 
-   
-
-
+     ArvostelunLisaysPaiva timestamp(8) NOT NULL ,
+     tunnus varchar(50) NOT NULL,
+     CONSTRAINT Arvostelu_PelinNimi_fkey FOREIGN KEY (PelinNimi)
+     REFERENCES Peli (PelinNimi) MATCH SIMPLE
+     ON UPDATE NO ACTION ON DELETE NO ACTION
      );
+
 
 CREATE TABLE ArvosteluKommentti (
      Arvostelun_ID INTEGER REFERENCES Arvostelu(id),
@@ -29,10 +31,15 @@ CREATE TABLE ArvosteluKommentti (
      );
 
 CREATE TABLE Kommentti (
-     PelinNimi varchar(50) references Peli(PelinNimi),
-     Kommentti varchar(300) NOT NULL
-     
+     id SERIAL PRIMARY KEY,
+     PelinNimi varchar(50) NOT NULL ,
+     Kommentti varchar(500) NOT NULL,
+     tunnus varchar(50) NOT NULL,
+     CONSTRAINT Kommentti_PelinNimi_fkey FOREIGN KEY (PelinNimi)
+     REFERENCES Peli (PelinNimi) MATCH SIMPLE
+     ON UPDATE NO ACTION ON DELETE NO ACTION
      );
+
 
 
 CREATE TABLE Kayttaja (

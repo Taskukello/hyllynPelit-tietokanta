@@ -41,6 +41,7 @@ public class Login extends HttpServlet {
         HttpSession session = request.getSession();
         Kayttaja kayttajatiedot = Kayttaja.etsiKayttajaTunnuksilla(tunnus, password);
         if (kayttajatiedot != null) {
+           
             session.setAttribute("Kirjautunut", kayttajatiedot);
             response.sendRedirect("Etusivu");
 

@@ -34,11 +34,13 @@
         </ul>
         <h3> Tietokannan kuvaus </h3>
         <div>Tähän tulee myöhemmin lyhyt kuvaus tietokannasta. HUOM! Toistaiseksi miltä tahansa sivulta kirjautuminen tulee uudelleenohjaamaan.</div>
-        <div>käyttäjän etusivulle. Tämä tulee muuttumaan. Käyttäjätunnuksilla ei myöskään pysty tekemään vielä mitään
-            joten tässä on testi käyttäjätunnukset sivun tarkastamiseen: tunnus: test2, salasana: test3.</div>
+        <div>käyttäjän etusivulle. Tämä tulee muuttumaan. Käyttäjätunnukset joilla on täydet valtuudet on tällähetkin:.</div>
+        <div> tunnus: Admin, salasana: Admin. Normaali tason tunnus on: tunnus: Vaapukkamehu salasana: tomaatti </div>
         <div>sivu Apukirjaus myös tekee tällä hetkin saman kuin kuin Kirjautuminen, mutta tämän tulee jatkossa</div>
         <div>muuttumaan. Jatkossa Apukirjaus tulee siirtämään käyttäjän takaisin sivulle josta hän sinne on joutunut</div>
         <div>(eli heti kun keksin miten se tehdään ilman miljoonaa jsp tiedostoa).</div>
+        <div> Tällä hetkin Lisäys ominaisuuden ja muokkaus ominaisuuden omaa vain Pelit sivu. Sen lisäksi arvosteluja ja kommentteja voi lisätä. </div>
+        <div> Ainoastaan sivulla Pelit on Poisto toiminto, ja sen näkee vain kirjautuneena Admin tunnuksilla! </div>
     </body>
 </html>
 

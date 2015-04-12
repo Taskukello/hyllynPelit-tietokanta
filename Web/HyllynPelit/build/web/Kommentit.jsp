@@ -36,10 +36,10 @@
         </div><!-- /.row -->
 
         <ul class="nav nav-tabs">
-                <li><a href="${pageContext.request.contextPath}/Etusivu"> Etusivu </a></li>
-                <li><a href="${pageContext.request.contextPath}/Pelit">Pelit</a></li>
-                <li> <a href="${pageContext.request.contextPath}/Arvostelut">Arvostelut</a></li>
-            
+            <li><a href="${pageContext.request.contextPath}/Etusivu"> Etusivu </a></li>
+            <li><a href="${pageContext.request.contextPath}/Pelit">Pelit</a></li>
+            <li> <a href="${pageContext.request.contextPath}/Arvostelut">Arvostelut</a></li>
+
             <li class="active"><a>Kommentit</a></li> 
         </ul>
         <h6>Pelejä yhteensä: 0</h6>
@@ -49,8 +49,26 @@
                 <tr>
                     <th>Nimi</th>
                     <th>Kommentti</th>
+                    <th>Kirjoittaja</th>
 
 
+                </tr>
+                <tr>
+                    <TD> <c:forEach var="Kommentti" items="${kommentit}">
+                            <div class="Kommentti"></div>
+                            <c:out value="${Kommentti.nimi}"/>
+                        </c:forEach>
+                    </TD>
+                    <TD> <c:forEach var="Kommentti" items="${kommentit}">
+                            <div class="Kommentti"></div>
+                            <c:out value="${Kommentti.kommentti}"/>
+                        </c:forEach>
+                    </TD>
+                    <TD> <c:forEach var="Kommentti" items="${kommentit}">
+                            <div class="Kommentti"></div>
+                            <c:out value="${Kommentti.tunnus}"/>
+                        </c:forEach>
+                    </TD>
                 </tr>
             </thead>
         </table>
