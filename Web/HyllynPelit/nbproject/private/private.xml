@@ -4,10 +4,18 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/Aki/hyllynPelit-tietokanta/Web/HyllynPelit/web/Pelit.jsp</file>
+            <file>file:/C:/Users/Aki/hyllynPelit-tietokanta/Web/HyllynPelit/src/java/HyllynPelit/Servlets/LisaaArvostelu.java</file>
+            <file>file:/C:/Users/Aki/hyllynPelit-tietokanta/Web/HyllynPelit/web/Kommentti.jsp</file>
+            <file>file:/C:/Users/Aki/hyllynPelit-tietokanta/Web/HyllynPelit/web/Etusivu.jsp</file>
+            <file>file:/C:/Users/Aki/hyllynPelit-tietokanta/Web/HyllynPelit/web/LisaaArvostelu.jsp</file>
+            <file>file:/C:/Users/Aki/hyllynPelit-tietokanta/Web/HyllynPelit/src/java/HyllynPelit/Servlets/Arvostelunlisaily.java</file>
+            <file>file:/C:/Users/Aki/hyllynPelit-tietokanta/Web/HyllynPelit/src/java/HyllynPelit/Peli.java</file>
+            <file>file:/C:/Users/Aki/hyllynPelit-tietokanta/Web/HyllynPelit/web/META-INF/context.xml</file>
             <file>file:/C:/Users/Aki/hyllynPelit-tietokanta/Web/HyllynPelit/web/Arvostelut.jsp</file>
-            <file>file:/C:/Users/Aki/hyllynPelit-tietokanta/Web/HyllynPelit/src/java/HyllynPelit/Servlets/Kirjautuminen.java</file>
-            <file>file:/C:/Users/Aki/hyllynPelit-tietokanta/Web/HyllynPelit/src/java/HyllynPelit/Servlets/Login.java</file>
-            <file>file:/C:/Users/Aki/hyllynPelit-tietokanta/Web/HyllynPelit/web/Kirjautuminen.jsp</file>
+            <file>file:/C:/Users/Aki/hyllynPelit-tietokanta/Web/HyllynPelit/src/java/HyllynPelit/Arvostelu.java</file>
+            <file>file:/C:/Users/Aki/hyllynPelit-tietokanta/Web/HyllynPelit/src/java/HyllynPelit/Servlets/Kommentti.java</file>
+            <file>file:/C:/Users/Aki/hyllynPelit-tietokanta/Web/HyllynPelit/src/java/HyllynPelit/Servlets/Pelit.java</file>
+            <file>file:/C:/Users/Aki/hyllynPelit-tietokanta/Web/HyllynPelit/src/java/HyllynPelit/KommentinHaku.java</file>
         </group>
     </open-files>
 </project-private>
