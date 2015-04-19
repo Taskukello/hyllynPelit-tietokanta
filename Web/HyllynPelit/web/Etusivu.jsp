@@ -1,8 +1,10 @@
 
 
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8" trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+
 
 
 
@@ -23,9 +25,17 @@
     </head>
     <body>
         <h1>Etusivu</h1>
-        <t:kirjauduNappi pageTitle="Etusivu">
-
-        </t:kirjauduNappi>
+        <c:if test="${fn:contains(KirjautumisTilanne, 'Et ole kirjautunut sisään')}">
+            <form action="Kirjautuminen" method="POST">
+                <input type="hidden" name="lahde" value="Etusivu"/>
+                <button type="submit" class="btn btn-default"  style="float: right">Kirjaudu sisään</button>
+            </form>
+        </c:if>
+        <c:if test="${fn:contains(KirjautumisTilanne, 'Kirjautunut sisään käyttäjällä: ')}">
+            <form action="KirjauduUlos" method="POST">
+                <button type="submit" class="btn btn-default"  style="float: right">Kirjaudu Ulos</button>
+            </form>
+        </c:if> 
         <ul class="nav nav-tabs">
             <li class="active"><a> Etusivu </a></li>
             <li><a href="${pageContext.request.contextPath}/Pelit">Pelit</a></li>
@@ -33,14 +43,20 @@
             <li><a href="${pageContext.request.contextPath}/Kommentit">Kommentit</a></li>
         </ul>
         <h3> Tietokannan kuvaus </h3>
-        <div>Tähän tulee myöhemmin lyhyt kuvaus tietokannasta. HUOM! Toistaiseksi miltä tahansa sivulta kirjautuminen tulee uudelleenohjaamaan.</div>
-        <div>käyttäjän etusivulle. Tämä tulee muuttumaan. Käyttäjätunnukset joilla on täydet valtuudet on tällähetkin:.</div>
+        <div>Tähän tulee myöhemmin lyhyt kuvaus tietokannasta.</div>
+        <div>Vihdoin kirjautuminen ohjaa oikealle juurisivulle. Käyttäjätunnukset joilla on täydet valtuudet on tällähetkin:.</div>
         <div> tunnus: Admin, salasana: Admin. Normaali tason tunnus on: tunnus: Vaapukkamehu salasana: tomaatti </div>
-        <div>sivu Apukirjaus myös tekee tällä hetkin saman kuin kuin Kirjautuminen, mutta tämän tulee jatkossa</div>
-        <div>muuttumaan. Jatkossa Apukirjaus tulee siirtämään käyttäjän takaisin sivulle josta hän sinne on joutunut</div>
-        <div>(eli heti kun keksin miten se tehdään ilman miljoonaa jsp tiedostoa).</div>
-        <div> Tällä hetkin Lisäys ominaisuuden ja muokkaus ominaisuuden omaa vain Pelit sivu. Sen lisäksi arvosteluja ja kommentteja voi lisätä. </div>
-        <div> Ainoastaan sivulla Pelit on Poisto toiminto, ja sen näkee vain kirjautuneena Admin tunnuksilla! </div>
+        <div>Sen lisäksi toiset normaalitunnukset ovat tunnus: aladin, salasana: prinssi</div>
+        <div>Pelin Muokkaus ja poistotoiminto (vain admin voi poistaa) on siirretty omalle sivulleen</div>
+        <div>Ja niihin pääsee käsiksi painamalla pelin nimeä (jos et ole kirjautunut nimen painallus ei tee vielä mitään)</div>
+        <div>Tällä viikolla minun piti saada myös hakutoiminto pystyyn, mutta Sivun korjailu ja parantelu vei odotettua enemmän</div>
+        <div>Aikaa. Edellä mainittu pelikohtainen tietosivu nyt myös näyttää pelille kirjoitetut kommentit, ja antaa käyttäjän </div>
+        <div> Lisätä uuden kommentin (käyttäjä voi lisätä vain yhden kommentin peliä kohti), ja halutessaan muokkaa tai poistaa</div>
+        <div> Sivulle Arvostelu tulee vielä tärkeä muutos jatkossa. nimittäin arvosanan lisäksi lyhyt mielipide pelistä.</div>
+        <div> Sen lisäksi. Arvostelut sivun pudotuspalkki josta valitaan peli ei tule muuttumaan! Mielestäni tämä on käyttäjälle</div>
+        <div> Parempi ratkaisu kuin Pelit sivulla käytetty tapa, koska Käyttäjä pääsee muokkaamaan vain itse lisäämiään arvosteluja</div>
+        <div> En ole myöskään vielä varma lisäänkö arvostelun poistoa Ollenkaan.</div>
+        <div> Niinjuu ja ääkköset eivät jostain syystä toimi vielä....?</div>
     </body>
 </html>
 

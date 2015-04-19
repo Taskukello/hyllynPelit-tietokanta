@@ -1,5 +1,6 @@
 package HyllynPelit;
 
+import static HyllynPelit.Arvostelu.getArvostelutNimella;
 import HyllynPelit.Tietokanta.Yhteys;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -28,6 +29,15 @@ public class Arvostelu {
     private String lisayspaiva;
     private Map<String, String> virheet = new HashMap<String, String>();
     private String tunnus;
+    private int id;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getTunnus() {
         return tunnus;
@@ -104,10 +114,30 @@ public class Arvostelu {
         return lkm;
     }
 
+    public static void MuokkaaArvostelua(int arv, String pelinNimi, String tunnus) throws NamingException, SQLException {
+        String sql = "UPDATE arvostelu set arvosana = ? WHERE pelinNimi = ? AND tunnus = ?";
+        Connection yhteys = Yhteys.getYhteys();
+        PreparedStatement kysely = yhteys.prepareStatement(sql);
+
+        kysely.setInt(1, arv);
+        kysely.setString(2, pelinNimi);
+        kysely.setString(3, tunnus);
+        kysely.execute();
+
+        try {
+            kysely.close();
+        } catch (Exception e) {
+        }
+        try {
+            yhteys.close();
+        } catch (Exception e) {
+        }
+    }
+
     public static List<Arvostelu> getArvostelut() throws NamingException, SQLException {
         Connection yhteys = Yhteys.getYhteys();
 
-        String sql = "SELECT Arvostelu.PelinNimi, Peli.Julkaisuvuosi, Arvostelu.arvosana, to_char(ArvostelunLisaysPaiva,'DD.MM.YYYY') ArvostelunLisaysPaiva, tunnus from Arvostelu INNER JOIN Peli ON Arvostelu.PelinNimi = Peli.PelinNimi";
+        String sql = "SELECT Arvostelu.PelinNimi, Peli.Julkaisuvuosi, Arvostelu.arvosana, to_char(ArvostelunLisaysPaiva,'DD.MM.YYYY') ArvostelunLisaysPaiva, tunnus, id from Arvostelu INNER JOIN Peli ON Arvostelu.PelinNimi = Peli.PelinNimi";
         PreparedStatement kysely = yhteys.prepareStatement(sql);
         ResultSet rs = kysely.executeQuery();
         ArrayList<Arvostelu> arvostelut = new ArrayList<Arvostelu>();
@@ -118,8 +148,10 @@ public class Arvostelu {
             k.setArvosana(rs.getInt("arvosana"));
             k.setLisayspaiva(rs.getString("ArvostelunLisaysPaiva"));
             k.setTunnus(rs.getString("tunnus"));
-            arvostelut.add(k);
-
+            k.setId(rs.getInt("id"));
+            if (!k.getTunnus().equals("tyhjaArvo")) {
+                arvostelut.add(k);
+            }
         }
         try {
             rs.close();
@@ -137,24 +169,24 @@ public class Arvostelu {
         return arvostelut;
 
     }
-    
-    public static List<Arvostelu> haeID() throws NamingException, SQLException {
+
+    public static Arvostelu haeID(String pelinNimi, String tunnus) throws NamingException, SQLException {
         Connection yhteys = Yhteys.getYhteys();
 
-        String sql = "SELECT Arvostelu.PelinNimi, Peli.Julkaisuvuosi, Arvostelu.arvosana, to_char(ArvostelunLisaysPaiva,'DD.MM.YYYY') ArvostelunLisaysPaiva, tunnus from Arvostelu INNER JOIN Peli ON Arvostelu.PelinNimi = Peli.PelinNimi";
+        String sql = "SELECT id from Arvostelu WHERE tunnus = ? AND pelinNimi = ?";
         PreparedStatement kysely = yhteys.prepareStatement(sql);
+        kysely.setString(1, tunnus);
+        kysely.setString(2, pelinNimi);
         ResultSet rs = kysely.executeQuery();
         ArrayList<Arvostelu> arvostelut = new ArrayList<Arvostelu>();
         while (rs.next()) {
             Arvostelu k = new Arvostelu();
-            k.setNimi(rs.getString("PelinNimi"));
-            k.setVuosi(rs.getString("Julkaisuvuosi"));
-            k.setArvosana(rs.getInt("arvosana"));
-            k.setLisayspaiva(rs.getString("ArvostelunLisaysPaiva"));
-            k.setTunnus(rs.getString("tunnus"));
+            k.setId(rs.getInt("id"));
             arvostelut.add(k);
 
         }
+        Arvostelu a = arvostelut.get(0);
+
         try {
             rs.close();
         } catch (Exception e) {
@@ -168,7 +200,7 @@ public class Arvostelu {
         } catch (Exception e) {
         }
 
-        return arvostelut;
+        return a;
 
     }
 
@@ -207,12 +239,53 @@ public class Arvostelu {
 
     }
 
-    public static void PoistaArvosteluPelinNimella(String tunnus) throws NamingException, SQLException {
-
-        String sql = "DELETE FROM Arvostelu WHERE PelinNimi = ?";
+    public static List<Arvostelu> getArvostelutTunnuksella(String tunnus) throws NamingException, SQLException {
         Connection yhteys = Yhteys.getYhteys();
+
+        String sql = "SELECT PelinNimi, arvosana, ArvostelunLisaysPaiva, tunnus from Arvostelu WHERE tunnus= ?";
         PreparedStatement kysely = yhteys.prepareStatement(sql);
         kysely.setString(1, tunnus);
+        ResultSet rs = kysely.executeQuery();
+
+        ArrayList<Arvostelu> arvostelut = new ArrayList<Arvostelu>();
+        while (rs.next()) {
+            Arvostelu k = new Arvostelu();
+            k.setNimi(rs.getString("PelinNimi"));
+            k.setArvosana(rs.getInt("arvosana"));
+            k.setLisayspaiva(rs.getString("ArvostelunLisaysPaiva"));
+            k.setTunnus(rs.getString("tunnus"));
+            arvostelut.add(k);
+
+        }
+        try {
+            rs.close();
+        } catch (Exception e) {
+        }
+        try {
+            kysely.close();
+        } catch (Exception e) {
+        }
+        try {
+            yhteys.close();
+        } catch (Exception e) {
+        }
+
+        return arvostelut;
+
+    }
+    
+    
+
+    public static void PoistaArvostelu(String tunnus, String pelinNimi, boolean bool) throws NamingException, SQLException {
+
+        String sql;
+        Connection yhteys = Yhteys.getYhteys();
+        PreparedStatement kysely = null;
+
+        sql = "DELETE FROM Arvostelu WHERE tunnus = ? AND pelinNimi = ?";
+        kysely = yhteys.prepareStatement(sql);
+        kysely.setString(1, tunnus);
+        kysely.setString(2, pelinNimi);
 
         kysely.execute();
 
@@ -224,15 +297,23 @@ public class Arvostelu {
             yhteys.close();
         } catch (Exception e) {
         }
+        if (bool == true) {                                 //härpäke juu. mutta ilman tätä keskiarvo ei näytä toimivan..
+            Arvostelu arvostelu = new Arvostelu();
+            arvostelu.setArvosana(0);
+            arvostelu.setNimi("tyhjaArvo");
+            arvostelu.setTunnus("tyhjaArvo");
+            arvostelu.lisaaArvosteluKantaan("tyhjaArvo");
+        }
 
     }
 
-    public static void MuokkaaArvostelua(int id) throws NamingException, SQLException {
+    public static void MuokkaaArvostelua(int arvosana, int id) throws NamingException, SQLException {
 
         String sql = "UPDATE Arvostelu SET  arvosana = ?  WHERE id = ?";
         Connection yhteys = Yhteys.getYhteys();
         PreparedStatement kysely = yhteys.prepareStatement(sql);
-        kysely.setInt(1, id);
+        kysely.setInt(1, arvosana);
+        kysely.setInt(2, id);
 
         kysely.execute();
 
@@ -248,7 +329,10 @@ public class Arvostelu {
     }
 
     public void lisaaArvosteluKantaan(String kayttis) throws NamingException, SQLException {
-
+        List<Arvostelu> l = getArvostelutTunnuksella("tyhjaArvo");                  //keskiarvon vuoksi
+        if (!l.isEmpty()) {
+            PoistaArvostelu("tyhjaArvo", this.getNimi(), false);
+        }
         String sql = "INSERT INTO Arvostelu (PelinNimi, arvosana, ArvostelunLisaysPaiva , tunnus) VALUES (?, ?, CURRENT_TIMESTAMP, ?)";
         Connection yhteys = Yhteys.getYhteys();
         PreparedStatement kysely = yhteys.prepareStatement(sql);

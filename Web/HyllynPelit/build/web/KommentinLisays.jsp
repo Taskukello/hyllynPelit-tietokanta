@@ -42,7 +42,7 @@
 
 
                 </div>
-                <div class="form-group" style="float: right"></div>
+                <div class="form-group"></div>
                 <div class="col-md-offset-2 col-md-10">
                     <button type="submit" class="btn btn-default">Hyväksy</button>
                 </div>

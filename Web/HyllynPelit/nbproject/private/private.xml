@@ -3,14 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Aki/hyllynPelit-tietokanta/Web/HyllynPelit/src/java/HyllynPelit/Servlets/LisaaKommentti.java</file>
-            <file>file:/C:/Users/Aki/hyllynPelit-tietokanta/Web/HyllynPelit/web/Kommentit.jsp</file>
-            <file>file:/C:/Users/Aki/hyllynPelit-tietokanta/Web/HyllynPelit/src/java/HyllynPelit/Servlets/LisaaArvostelu.java</file>
-            <file>file:/C:/Users/Aki/hyllynPelit-tietokanta/Web/HyllynPelit/web/KommentinLisays.jsp</file>
-            <file>file:/C:/Users/Aki/hyllynPelit-tietokanta/Web/HyllynPelit/src/java/HyllynPelit/Servlets/KommentinLisays.java</file>
-            <file>file:/C:/Users/Aki/hyllynPelit-tietokanta/Web/HyllynPelit/src/java/HyllynPelit/Arvostelu.java</file>
-            <file>file:/C:/Users/Aki/hyllynPelit-tietokanta/Web/HyllynPelit/src/java/HyllynPelit/Kommentti.java</file>
-            <file>file:/C:/Users/Aki/hyllynPelit-tietokanta/Web/HyllynPelit/src/java/HyllynPelit/Servlets/Arvostelunlisaily.java</file>
+            <file>file:/C:/Users/Aki/hyllynPelit-tietokanta/Web/HyllynPelit/web/Pelit.jsp</file>
+            <file>file:/C:/Users/Aki/hyllynPelit-tietokanta/Web/HyllynPelit/web/Arvostelut.jsp</file>
+            <file>file:/C:/Users/Aki/hyllynPelit-tietokanta/Web/HyllynPelit/src/java/HyllynPelit/Servlets/Kirjautuminen.java</file>
+            <file>file:/C:/Users/Aki/hyllynPelit-tietokanta/Web/HyllynPelit/src/java/HyllynPelit/Servlets/Login.java</file>
+            <file>file:/C:/Users/Aki/hyllynPelit-tietokanta/Web/HyllynPelit/web/Kirjautuminen.jsp</file>
         </group>
     </open-files>
 </project-private>

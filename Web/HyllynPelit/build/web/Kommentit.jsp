@@ -11,66 +11,75 @@
         <link href="css/bootstrap.css" rel="stylesheet">
         <link href="css/bootstrap-theme.css" rel="stylesheet">
         <link href="css/main.css" rel="stylesheet">
-        <t:kirjauduNappi pageTitle="Pelit">
+        
+        <c:if test="${fn:contains(KirjautumisTilanne, 'Et ole kirjautunut sisään')}">
+        <form action="Kirjautuminen" method="POST">
+            <input type="hidden" name="lahde" value="Kommentit"/>
+            <button type="submit" class="btn btn-default"  style="float: right">Kirjaudu sisään</button>
+        </form>
+    </c:if>
+    <c:if test="${fn:contains(KirjautumisTilanne, 'Kirjautunut sisään käyttäjällä: ')}">
+        <form action="KirjauduUlos" method="POST">
+            <button type="submit" class="btn btn-default"  style="float: right">Kirjaudu Ulos</button>
+        </form>
+    </c:if> 
 
-        </t:kirjauduNappi>
+    <t:kirjautunut pageTitle="Kommentit">
 
-        <t:kirjautunut pageTitle="Kommentit">
+    </t:kirjautunut>
+    <title>Kommentit</title>
+</head>
+<body>
+    <h1>Kommentit</h1>
 
-        </t:kirjautunut>
-        <title>Kommentit</title>
-    </head>
-    <body>
-        <h1>Kommentit</h1>
+    <div class="row" >
 
-        <div class="row" >
+        <div class="col-lg-6" style="float: right;">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Pelin nimi">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button">hae!</button>
+                </span>
+            </div><!-- /input-group -->
+        </div><!-- /.col-lg-6 -->
+    </div><!-- /.row -->
 
-            <div class="col-lg-6" style="float: right;">
-                <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Pelin nimi">
-                    <span class="input-group-btn">
-                        <button class="btn btn-default" type="button">hae!</button>
-                    </span>
-                </div><!-- /input-group -->
-            </div><!-- /.col-lg-6 -->
-        </div><!-- /.row -->
+    <ul class="nav nav-tabs">
+        <li><a href="${pageContext.request.contextPath}/Etusivu"> Etusivu </a></li>
+        <li><a href="${pageContext.request.contextPath}/Pelit">Pelit</a></li>
+        <li> <a href="${pageContext.request.contextPath}/Arvostelut">Arvostelut</a></li>
 
-        <ul class="nav nav-tabs">
-            <li><a href="${pageContext.request.contextPath}/Etusivu"> Etusivu </a></li>
-            <li><a href="${pageContext.request.contextPath}/Pelit">Pelit</a></li>
-            <li> <a href="${pageContext.request.contextPath}/Arvostelut">Arvostelut</a></li>
-
-            <li class="active"><a>Kommentit</a></li> 
-        </ul>
-        <h6>Pelejä yhteensä: 0</h6>
-        <h6> </h6>
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>Nimi</th>
-                    <th>Kommentti</th>
-                    <th>Kirjoittaja</th>
+        <li class="active"><a>Kommentit</a></li> 
+    </ul>
+    <h6>Pelejä yhteensä: 0</h6>
+    <h6> </h6>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Nimi</th>
+                <th>Kommentti</th>
+                <th>Kirjoittaja</th>
 
 
-                </tr>
-                <tr>
-                    <TD> <c:forEach var="Kommentti" items="${kommentit}">
-                            <div class="Kommentti"></div>
-                            <c:out value="${Kommentti.nimi}"/>
-                        </c:forEach>
-                    </TD>
-                    <TD> <c:forEach var="Kommentti" items="${kommentit}">
-                            <div class="Kommentti"></div>
-                            <c:out value="${Kommentti.kommentti}"/>
-                        </c:forEach>
-                    </TD>
-                    <TD> <c:forEach var="Kommentti" items="${kommentit}">
-                            <div class="Kommentti"></div>
-                            <c:out value="${Kommentti.tunnus}"/>
-                        </c:forEach>
-                    </TD>
-                </tr>
-            </thead>
-        </table>
-    </body>
+            </tr>
+            <tr>
+                <TD> <c:forEach var="Kommentti" items="${kommentit}">
+                        <div class="Kommentti"></div>
+                        <c:out value="${Kommentti.nimi}"/>
+                    </c:forEach>
+                </TD>
+                <TD> <c:forEach var="Kommentti" items="${kommentit}">
+                        <div class="Kommentti"></div>
+                        <c:out value="${Kommentti.kommentti}"/>
+                    </c:forEach>
+                </TD>
+                <TD> <c:forEach var="Kommentti" items="${kommentit}">
+                        <div class="Kommentti"></div>
+                        <c:out value="${Kommentti.tunnus}"/>
+                    </c:forEach>
+                </TD>
+            </tr>
+        </thead>
+    </table>
+</body>
 </html>

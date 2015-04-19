@@ -42,7 +42,9 @@
                 </div>
                 <div class="form-group" style="float: right">
                     <div class="col-md-offset-2 col-md-10">
+                        <input type="hidden" name="lahde" value="${lahde}">
                         <button type="submit" class="btn btn-default">Kirjaudu</button>
+                        
                         <a class="btn btn-default" href="${pageContext.request.contextPath}/Etusivu" role="button" >peruuta</a>
                     </div>
 

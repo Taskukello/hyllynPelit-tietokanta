@@ -1,6 +1,7 @@
 package HyllynPelit.Servlets;
 
 import HyllynPelit.Models.Kayttaja;
+import HyllynPelit.UudelleenOhjaus;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -37,17 +38,32 @@ public class Login extends HttpServlet {
         RequestDispatcher dispatcher = request.getRequestDispatcher("Kirjautuminen.jsp");
         String password = request.getParameter("Salasana");
         String tunnus = request.getParameter("Kayttajatunnus");
-        
+
         HttpSession session = request.getSession();
         Kayttaja kayttajatiedot = Kayttaja.etsiKayttajaTunnuksilla(tunnus, password);
+        // UudelleenOhjaus lahde = (UudelleenOhjaus) session.getAttribute("lahde");
+        String perkeleToimi = request.getParameter("lahde");
+        //  session.removeAttribute("lahde");
         if (kayttajatiedot != null) {
-           
-            session.setAttribute("Kirjautunut", kayttajatiedot);
-            response.sendRedirect("Etusivu");
 
+            if (perkeleToimi.trim().equals("Pelit")) {
+                session.setAttribute("Kirjautunut", kayttajatiedot);
+                response.sendRedirect("Pelit");
+            } else if (perkeleToimi.trim().equals("Etusivu")) {
+                session.setAttribute("Kirjautunut", kayttajatiedot);
+                response.sendRedirect("Etusivu");
+            } else if (perkeleToimi.trim().equals("Arvostelut")) {
+                session.setAttribute("Kirjautunut", kayttajatiedot);
+                response.sendRedirect("Arvostelut");
+            } else if (perkeleToimi.trim().equals("Kommentit")) {
+                session.setAttribute("Kirjautunut", kayttajatiedot);
+                response.sendRedirect("Kommentit");
+            }
         } else {
+            request.setAttribute("lahde", perkeleToimi);
             if (tunnus.trim().isEmpty() && !password.trim().isEmpty()) {
                 request.setAttribute("virheViesti", "Käyttäjätunnus puuttui!");
+
                 dispatcher.forward(request, response);
             } else if (password.trim().isEmpty() && !tunnus.trim().isEmpty()) {
                 request.setAttribute("virheViesti", "Salasanaa puuttui!");

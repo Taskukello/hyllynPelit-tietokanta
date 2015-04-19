@@ -31,6 +31,7 @@ public class Peli {
     private String tekija;
     private String alusta;
     private String lisays;
+    private double keskiarvo;
     private int vuosi;
     private int id;
     private Map<String, String> virheet = new HashMap<String, String>();
@@ -52,7 +53,8 @@ public class Peli {
         Connection yhteys = Yhteys.getYhteys();
         // int montako = 10;
         // int sivu = 2;
-        String sql = "SELECT PelinNimi, to_char(MilloinLisätty,'DD.MM.YYYY') MilloinLisätty,  Julkaisuvuosi, Tekijä, Pelialusta from Peli ORDER by PelinNimi";
+
+        String sql = "SELECT Peli.PelinNimi, to_char(MilloinLisätty,'DD.MM.YYYY') MilloinLisätty,  Julkaisuvuosi, Tekijä, Pelialusta, round(avg(Arvostelu.arvosana), 1) keskiarvo from Peli INNER JOIN Arvostelu ON Peli.PelinNimi = Arvostelu.PelinNimi GROUP BY Peli.PelinNimi, MilloinLisätty, peli.Julkaisuvuosi, peli.tekijä, peli.pelialusta  ORDER by Peli.PelinNimi";
         PreparedStatement kysely = yhteys.prepareStatement(sql);
         // kysely.setInt(1, montako);
         // kysely.setInt(2, (sivu - 1) * montako);
@@ -65,6 +67,44 @@ public class Peli {
             k.setVuosi(rs.getString("Julkaisuvuosi"));
             k.setTekija(rs.getString("Tekijä"));
             k.setAlusta(rs.getString("Pelialusta"));
+            k.setKeskiarvo((rs.getDouble("keskiarvo")));
+
+            kayttajat.add(k);
+
+        }
+        try {
+            rs.close();
+        } catch (Exception e) {
+        }
+        try {
+            kysely.close();
+        } catch (Exception e) {
+        }
+        try {
+            yhteys.close();
+        } catch (Exception e) {
+        }
+
+        return kayttajat;
+
+    }
+    
+        public static List<Peli> getPelitJossaEiTunnuksenArvostelua(String tunnus) throws NamingException, SQLException {
+        Connection yhteys = Yhteys.getYhteys();
+
+        String sql = "SELECT Peli.PelinNimi, to_char(MilloinLisätty,'DD.MM.YYYY') MilloinLisätty,  Julkaisuvuosi, Tekijä, Pelialusta from Peli WHERE PelinNimi NOT IN (select PelinNimi from Arvostelu where tunnus = ?)";
+        PreparedStatement kysely = yhteys.prepareStatement(sql);
+        kysely.setString(1, tunnus);
+        ResultSet rs = kysely.executeQuery();
+        ArrayList<Peli> kayttajat = new ArrayList<Peli>();
+        while (rs.next()) {
+            Peli k = new Peli();
+            k.setPeli(rs.getString("PelinNimi"));
+            k.setLisays(rs.getString("MilloinLisätty"));
+            k.setVuosi(rs.getString("Julkaisuvuosi"));
+            k.setTekija(rs.getString("Tekijä"));
+            k.setAlusta(rs.getString("Pelialusta"));
+
             kayttajat.add(k);
 
         }
@@ -108,12 +148,12 @@ public class Peli {
         return lkm;
     }
 
-    public static void PoistaPeli(String nimi) throws NamingException, SQLException {
-        if (!Kommentti.getKommentitNimella(nimi).isEmpty()) {
-            Kommentti.PoistaKommentti(nimi);
+    public static void PoistaPeli(String nimi, String tunnus) throws NamingException, SQLException {
+        if (!KommentinHaku.getKommentitNimella(nimi).isEmpty()) {
+            KommentinHaku.PoistaKommenttiNimella(nimi);
         }
         if (!Arvostelu.getArvostelutNimella(nimi).isEmpty()) {
-            Arvostelu.PoistaArvosteluPelinNimella(nimi);
+            Arvostelu.PoistaArvostelu(tunnus, nimi, false);
         }
         String sql = "DELETE FROM Peli WHERE PelinNimi = ?";
         Connection yhteys = Yhteys.getYhteys();
@@ -221,6 +261,11 @@ public class Peli {
             yhteys.close();
         } catch (Exception e) {
         }
+        Arvostelu arvostelu = new Arvostelu();                      //härpäke varmistaa keskiarvulaskurin toimintaa
+        arvostelu.setArvosana(0);                                   // ilman tätä se ei nimittäin osaa tulostaa pelejä ollenkaan
+        arvostelu.setNimi(this.peli);
+        arvostelu.setTunnus("tyhjaArvo");
+        arvostelu.lisaaArvosteluKantaan("tyhjaArvo");
     }
 
     public void MuokkaaPelia(Peli peli) throws NamingException, SQLException {
@@ -314,6 +359,14 @@ public class Peli {
     public Collection<String> getVirheet() {
 
         return virheet.values();
+    }
+
+    public double getKeskiarvo() {
+        return keskiarvo;
+    }
+
+    public void setKeskiarvo(double keskiarvo) {
+        this.keskiarvo = keskiarvo;
     }
 
 }

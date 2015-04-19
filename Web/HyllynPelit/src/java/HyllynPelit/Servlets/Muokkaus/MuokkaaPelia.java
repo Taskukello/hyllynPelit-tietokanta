@@ -1,4 +1,4 @@
-package HyllynPelit.Servlets;
+package HyllynPelit.Servlets.Muokkaus;
 
 import HyllynPelit.Arvostelu;
 import HyllynPelit.Models.Kayttaja;

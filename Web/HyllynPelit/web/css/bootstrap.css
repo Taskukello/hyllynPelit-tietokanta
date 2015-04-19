@@ -4894,6 +4894,12 @@ a.badge:focus {
     font-size: 63px;
   }
 }
+
+.reunus{
+   margin:0 auto; 
+   width:1800px; 
+}
+
 .thumbnail {
   display: block;
   padding: 4px;

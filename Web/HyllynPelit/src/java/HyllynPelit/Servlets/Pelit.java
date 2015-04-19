@@ -36,10 +36,7 @@ public class Pelit extends HttpServlet {
             throws ServletException, IOException, NamingException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
-
-        int montakokissaasivulla = 10;
-        String sivuParametri = request.getParameter("sivu");
-        int sivu = 1;
+        session.removeAttribute("valinta");             //poistaa pelin tarkempien tietojen selailussa käytettyä atribuuttia
         String ilmoitus = (String) session.getAttribute("ilmoitus");
 
         if (ilmoitus != null) {
@@ -48,9 +45,6 @@ public class Pelit extends HttpServlet {
             request.setAttribute("ilmoitus", ilmoitus);
         }
 
-        // if (sivuParametri != null && sivuParametri.matches("\\d+")) {
-        //    sivu = Integer.parseInt(sivuParametri);
-        //}
         List<Peli> pelit = Peli.getPelit();
         request.setAttribute("pelit", pelit);
         int pelienMaara = Peli.lukumaara();

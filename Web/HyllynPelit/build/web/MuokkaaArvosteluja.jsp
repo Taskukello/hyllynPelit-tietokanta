@@ -23,15 +23,16 @@
         <h2> Pelin nimi: ${nimi}</h2>
         <div class="container" style="float: left;">
 
-            <form class="form-horizonal" role="form" action="Arvostelut.jsp" method="POST">      
+            <form class="form-horizonal" role="form" action="ArvostelunMuokkaus" method="POST">      
                 <div class="form-group">
-                    <input type="hidden"  name="PelinNimi" value="${Nimi}"> 
+                    <input type="hidden"  name="PelinNimi" value="${nimi}"> 
 
 
                 </div>
                 <div class="form-group">
-                    <label for="inputGamescore" class="col-md-2 control-label">Arviointi</label>
-                    <select>
+                    <label>Arvosana</label>
+                    <select name="arvosana">
+
                         <option value="1">1.</option>
                         <option value="2">2.</option>
                         <option value="3">3.</option>
@@ -41,14 +42,13 @@
                         <option value="8">8.</option>
                         <option value="9">9.</option>
                         <option value="10">10.</option>
-
                     </select>
 
                 </div>
                 <div class="form-group" style="float: right"></div>
                 <div class="col-md-offset-2 col-md-10">
                     <button type="submit" class="btn btn-default">Hyväksy</button>
-                    <a class="btn btn-default" href="${pageContext.request.contextPath}/Arvostelut" role="button" >peruuta</a>
+                   
                 </div>
             </form>
         </div>

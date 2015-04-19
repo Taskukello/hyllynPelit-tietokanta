@@ -1,6 +1,8 @@
 package HyllynPelit.Servlets;
 
 import HyllynPelit.Models.Kayttaja;
+import HyllynPelit.Models.OnkoKirjautunut;
+import HyllynPelit.UudelleenOhjaus;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
@@ -14,7 +16,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author Aki
  */
-public class KirjauduUlos extends HttpServlet {
+public class Kirjautuminen extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -28,18 +30,16 @@ public class KirjauduUlos extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        //   RequestDispatcher dispatcher = request.getRequestDispatcher("Kirjautuminen.jsp");
-
         HttpSession session = request.getSession();
-        session.removeAttribute("valinta");             //poistaa pelin tarkempien tietojen selailussa käytettyä atribuuttia
-        String sivu = request.getParameter("pageTitle");
-        session.removeAttribute("Kirjautunut");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("Kirjautuminen.jsp");
+
+        String lahde = request.getParameter("lahde");
+        request.setAttribute("lahde", lahde);
         
-        
-        response.sendRedirect("Etusivu");
+         dispatcher.forward(request, response);
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *

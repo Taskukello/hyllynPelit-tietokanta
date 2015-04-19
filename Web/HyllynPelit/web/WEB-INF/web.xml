@@ -70,7 +70,7 @@
     </servlet>
     <servlet>
         <servlet-name>MuokkaaPelia</servlet-name>
-        <servlet-class>HyllynPelit.Servlets.MuokkaaPelia</servlet-class>
+        <servlet-class>HyllynPelit.Servlets.Muokkaus.MuokkaaPelia</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>PelitValinnanUudelleenOhjaus</servlet-name>
@@ -79,6 +79,22 @@
     <servlet>
         <servlet-name>ArvostelunPoisto</servlet-name>
         <servlet-class>HyllynPelit.Servlets.ArvostelunPoisto</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ArvostelunMuokkaus</servlet-name>
+        <servlet-class>HyllynPelit.Servlets.Muokkaus.ArvostelunMuokkaus</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>KommentinMuokkaus</servlet-name>
+        <servlet-class>HyllynPelit.Servlets.Muokkaus.KommentinMuokkaus</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>KommentinMuokkausLook</servlet-name>
+        <servlet-class>HyllynPelit.Servlets.KommentinMuokkausLook</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Kirjautuminen</servlet-name>
+        <servlet-class>HyllynPelit.Servlets.Kirjautuminen</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Pelit</servlet-name>
@@ -159,6 +175,22 @@
     <servlet-mapping>
         <servlet-name>ArvostelunPoisto</servlet-name>
         <url-pattern>/ArvostelunPoisto</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ArvostelunMuokkaus</servlet-name>
+        <url-pattern>/ArvostelunMuokkaus</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>KommentinMuokkaus</servlet-name>
+        <url-pattern>/KommentinMuokkaus</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>KommentinMuokkausLook</servlet-name>
+        <url-pattern>/KommentinMuokkausLook</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Kirjautuminen</servlet-name>
+        <url-pattern>/Kirjautuminen</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

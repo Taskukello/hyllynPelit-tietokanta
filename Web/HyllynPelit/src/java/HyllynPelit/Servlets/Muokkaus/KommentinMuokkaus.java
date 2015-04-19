@@ -1,4 +1,4 @@
-package HyllynPelit.Servlets;
+package HyllynPelit.Servlets.Muokkaus;
 
 import HyllynPelit.KommentinHaku;
 import HyllynPelit.Models.Kayttaja;
@@ -6,7 +6,6 @@ import HyllynPelit.Models.OnkoKirjautunut;
 import HyllynPelit.UudelleenOhjaus;
 import java.io.IOException;
 import java.io.PrintWriter;
-import static java.lang.Integer.parseInt;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.logging.Level;
@@ -23,7 +22,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author Aki
  */
-public class LisaaKommentti extends HttpServlet {
+public class KommentinMuokkaus extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,7 +37,7 @@ public class LisaaKommentti extends HttpServlet {
             throws ServletException, IOException, NamingException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
-        RequestDispatcher dispatcher = request.getRequestDispatcher("KommentinLisays.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("KommentinMuokkaus.jsp");
         Kayttaja kirjautunut = (Kayttaja) session.getAttribute("Kirjautunut");
         OnkoKirjautunut k = new OnkoKirjautunut();
         String palautus = k.onkoKirjautunut(kirjautunut);
@@ -47,20 +46,38 @@ public class LisaaKommentti extends HttpServlet {
 
         uusiKommentti.setKommentti(request.getParameter("kommentti"));
         uusiKommentti.setNimi(request.getParameter("PelinNimi"));
+        String button = request.getParameter("button");
+        if (button == null) {
 
-        if (uusiKommentti.onkoKelvollinen() == true) {
-            uusiKommentti.lisaaKommenttiKantaan(kirjautunut.getTunnus());
+            if (uusiKommentti.onkoKelvollinen() == true) {
+                uusiKommentti.MuokkaaKommentia(kirjautunut.getTunnus());
 
-            session.setAttribute("ilmoitus", "Uusi Kommentti lisätty onnistuneesti.");
-            session.removeAttribute("valinta");
-            UudelleenOhjaus o = new UudelleenOhjaus(uusiKommentti.getNimi());
-            session.setAttribute("tiedonsiirto", o);
-            response.sendRedirect("Kommentti");
+                session.setAttribute("ilmoitus", "Kommenttiasi on muokattu onnistuneesti.");
+                session.removeAttribute("valinta");
+                UudelleenOhjaus o = new UudelleenOhjaus(uusiKommentti.getNimi());
+                session.setAttribute("tiedonsiirto", o);
+                response.sendRedirect("Kommentti");
+            } else {
+                Collection<String> virheet = uusiKommentti.getVirheet();
+                session.setAttribute("virheet", virheet);
+                session.setAttribute("arvostelut", uusiKommentti);
+                response.sendRedirect("KommentinMuokkaus");
+            }
+
         } else {
-            Collection<String> virheet = uusiKommentti.getVirheet();
-            session.setAttribute("virheet", virheet);
-            session.setAttribute("arvostelut", uusiKommentti);
-            response.sendRedirect("KommentinLisays");
+            if (button.contains("poista")) {
+                KommentinHaku.PoistaKommenttiTunnuksella(kirjautunut.getTunnus());
+                session.setAttribute("ilmoitus", "Kommenttisi on poistettu.");
+                session.removeAttribute("valinta");
+                UudelleenOhjaus o = new UudelleenOhjaus(uusiKommentti.getNimi());
+                session.setAttribute("tiedonsiirto", o);
+                response.sendRedirect("Kommentti");
+            } else {
+                session.removeAttribute("valinta");
+                UudelleenOhjaus o = new UudelleenOhjaus(uusiKommentti.getNimi());
+                session.setAttribute("tiedonsiirto", o);
+                response.sendRedirect("Kommentti");
+            }
         }
     }
 
@@ -79,9 +96,9 @@ public class LisaaKommentti extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (NamingException ex) {
-            Logger.getLogger(LisaaKommentti.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(KommentinMuokkaus.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(LisaaKommentti.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(KommentinMuokkaus.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -99,9 +116,9 @@ public class LisaaKommentti extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (NamingException ex) {
-            Logger.getLogger(LisaaKommentti.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(KommentinMuokkaus.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(LisaaKommentti.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(KommentinMuokkaus.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

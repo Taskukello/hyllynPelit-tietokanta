@@ -32,46 +32,26 @@ public class ApuKirjaus extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, NamingException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
-        RequestDispatcher dispatcher = request.getRequestDispatcher("ApuKirjaus.jsp");
-        String password = request.getParameter("Salasana");
-        String tunnus = request.getParameter("Kayttajatunnus");
-
         HttpSession session = request.getSession();
-        Kayttaja kayttajatiedot = Kayttaja.etsiKayttajaTunnuksilla(tunnus, password);
-        if (kayttajatiedot != null) {
-            session.setAttribute("Kirjautunut", kayttajatiedot);
-            response.sendRedirect("Etusivu");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("ApuKirjaus.jsp");
 
-        } else {
-            if (tunnus.trim().isEmpty() && !password.trim().isEmpty()) {
-                request.setAttribute("virheViesti", "Käyttäjätunnus puuttui!");
-                dispatcher.forward(request, response);
-            } else if (password.trim().isEmpty() && !tunnus.trim().isEmpty()) {
-                request.setAttribute("virheViesti", "Salasanaa puuttui!");
-                dispatcher.forward(request, response);
-            } else if (tunnus.trim().isEmpty() && password.trim().isEmpty()) {
-                request.setAttribute("virheViesti", "Käyttäjätunnus ja salasana puuttuivat!");
-                dispatcher.forward(request, response);
-            } else {
-                request.setAttribute("virheViesti", "Käyttäjätunnus tai salasana on väärin!");
-                dispatcher.forward(request, response);
-            }
-        }
+        String lahde = request.getParameter("lahde");
+        request.setAttribute("lahde", lahde);
+
+        dispatcher.forward(request, response);
     }
 
-
-
 // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-/**
- * Handles the HTTP <code>GET</code> method.
- *
- * @param request servlet request
- * @param response servlet response
- * @throws ServletException if a servlet-specific error occurs
- * @throws IOException if an I/O error occurs
- */
-@Override
-        protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    /**
+     * Handles the HTTP <code>GET</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
             processRequest(request, response);
@@ -91,7 +71,7 @@ public class ApuKirjaus extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-        protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
             processRequest(request, response);
@@ -108,7 +88,7 @@ public class ApuKirjaus extends HttpServlet {
      * @return a String containing servlet description
      */
     @Override
-        public String getServletInfo() {
+    public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
 

@@ -36,16 +36,15 @@ public class LisaaArvostelu extends HttpServlet {
             throws ServletException, IOException, NamingException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
-        
-        
-        List<Peli> pelit = Peli.getPelit();
-        request.setAttribute("pelit", pelit);
-        
         RequestDispatcher dispatcher = request.getRequestDispatcher("LisaaArvostelu.jsp");
         Kayttaja kirjautunut = (Kayttaja) session.getAttribute("Kirjautunut");
         OnkoKirjautunut k = new OnkoKirjautunut();
         String palautus = k.onkoKirjautunut(kirjautunut);
         request.setAttribute("KirjautumisTilanne", palautus);
+
+        List<Peli> pelit = Peli.getPelitJossaEiTunnuksenArvostelua(kirjautunut.getTunnus());
+        request.setAttribute("pelit", pelit);
+
         dispatcher.forward(request, response);
     }
 

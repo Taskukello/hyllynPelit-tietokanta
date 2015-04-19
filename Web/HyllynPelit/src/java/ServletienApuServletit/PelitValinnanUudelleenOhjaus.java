@@ -38,20 +38,22 @@ public class PelitValinnanUudelleenOhjaus extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
 
         HttpSession session = request.getSession();
-        RequestDispatcher dispatcher = request.getRequestDispatcher("Pelit.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("Kommentti.jsp");
+        Kayttaja kirjautunut = (Kayttaja) session.getAttribute("Kirjautunut");
 
         String nimi = request.getParameter("muokattavanNimi");
         String button = request.getParameter("action");
         UudelleenOhjaus ohjaus = new UudelleenOhjaus(nimi);
-
+        session.setAttribute("Nimi", ohjaus);
         if (button.equals("muokkaa")) {
-            session.setAttribute("Nimi", ohjaus);
+
             response.sendRedirect("PelinMuokkaus");
         } else if (button.equals("Kommentti")) {
-            session.setAttribute("Nimi", ohjaus);
             response.sendRedirect("KommentinLisays");
+        } else if (button.equals("KommentinMuokkaus")) {
+            response.sendRedirect("KommentinMuokkausLook");
         } else if (button.equals("Poista")) {
-            Peli.PoistaPeli(nimi);
+            Peli.PoistaPeli(nimi, kirjautunut.getTunnus());
             session.setAttribute("ilmoitus", nimi + " On poistettu tietokannasta.");
             response.sendRedirect("Pelit");
         }

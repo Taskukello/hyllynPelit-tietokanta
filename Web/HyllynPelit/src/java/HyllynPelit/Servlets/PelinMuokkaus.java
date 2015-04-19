@@ -43,8 +43,7 @@ public class PelinMuokkaus extends HttpServlet {
         UudelleenOhjaus o = (UudelleenOhjaus) session.getAttribute("Nimi");
 
         String perkele = o.getAtribuutti();
-        
-        
+
         List<Alusta> alustat = Alusta.GetAlustat();
         request.setAttribute("alustat", alustat);
 

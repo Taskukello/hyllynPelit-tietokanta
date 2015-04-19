@@ -37,7 +37,7 @@
 
                     <label for="inputGametekija" class="col-md-2 control-label">Pelin tekijä: </label>
                     <div class="col-md-10">
-                        <input type="Pelin Tekija" class="form-control" id="inputGametekija" name="Pelin tekija" 
+                        <input type="Pelin Tekija" class="form-control" id="inputGametekija" name="Tekija" 
                                placeholder="${Tekija}">
                     </div>
 

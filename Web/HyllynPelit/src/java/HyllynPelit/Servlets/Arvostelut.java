@@ -37,6 +37,7 @@ public class Arvostelut extends HttpServlet {
             throws ServletException, IOException, NamingException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
+        session.removeAttribute("valinta");             //poistaa pelin tarkempien tietojen selailussa käytettyä atribuuttia
         String ilmoitus = (String) session.getAttribute("ilmoitus");
         if (ilmoitus != null) {
             session.removeAttribute("ilmoitus");
@@ -53,10 +54,10 @@ public class Arvostelut extends HttpServlet {
         OnkoKirjautunut k = new OnkoKirjautunut();
         String palautus = k.onkoKirjautunut(kirjautunut);
         request.setAttribute("KirjautumisTilanne", palautus);
-        
-        List<Peli> pelit = Peli.haePelitTunnuksella(kirjautunut.getTunnus());
-        request.setAttribute("pelit", pelit);
-
+        if (kirjautunut != null) {
+            List<Peli> pelit = Peli.haePelitTunnuksella(kirjautunut.getTunnus());
+            request.setAttribute("pelit", pelit);
+        }
         dispatcher.forward(request, response);
 
     }

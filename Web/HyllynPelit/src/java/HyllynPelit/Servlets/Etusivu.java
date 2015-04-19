@@ -30,6 +30,7 @@ public class Etusivu extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
+        session.removeAttribute("valinta");             //poistaa pelin tarkempien tietojen selailussa käytettyä atribuuttia
         RequestDispatcher dispatcher = request.getRequestDispatcher("Etusivu.jsp");
         Kayttaja kirjautunut = (Kayttaja) session.getAttribute("Kirjautunut");
         OnkoKirjautunut k = new OnkoKirjautunut();

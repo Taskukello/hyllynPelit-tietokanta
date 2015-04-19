@@ -2,7 +2,7 @@ package HyllynPelit.Servlets;
 
 import HyllynPelit.Models.Kayttaja;
 import HyllynPelit.Models.OnkoKirjautunut;
-import HyllynPelit.Kommentti;
+import HyllynPelit.KommentinHaku;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -36,9 +36,10 @@ public class Kommentit extends HttpServlet {
             throws ServletException, IOException, NamingException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
-        List <Kommentti> kommentit = Kommentti.getKommentit();
+        session.removeAttribute("valinta");             //poistaa pelin tarkempien tietojen selailussa käytettyä atribuuttia
+        List<KommentinHaku> kommentit = KommentinHaku.getKommentit();
         request.setAttribute("kommentit", kommentit);
-        
+
         RequestDispatcher dispatcher = request.getRequestDispatcher("Kommentit.jsp");
         Kayttaja kirjautunut = (Kayttaja) session.getAttribute("Kirjautunut");
         OnkoKirjautunut k = new OnkoKirjautunut();
