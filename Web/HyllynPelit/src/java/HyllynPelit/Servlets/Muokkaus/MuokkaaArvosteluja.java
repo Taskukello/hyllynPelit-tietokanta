@@ -1,15 +1,11 @@
-package HyllynPelit.Servlets;
+package HyllynPelit.Servlets.Muokkaus;
 
+import HyllynPelit.Arvostelu;
 import HyllynPelit.Models.Kayttaja;
 import HyllynPelit.Models.OnkoKirjautunut;
-import HyllynPelit.Peli;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.naming.NamingException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -21,7 +17,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author Aki
  */
-public class LisaaArvostelu extends HttpServlet {
+public class MuokkaaArvosteluja extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,22 +29,21 @@ public class LisaaArvostelu extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, NamingException, SQLException {
-        response.setContentType("text/html;charset=UTF-8");
+            throws ServletException, IOException {
+        response.setContentType("text/html;charset=ISO-8859-1");
         HttpSession session = request.getSession();
-        RequestDispatcher dispatcher = request.getRequestDispatcher("LisaaArvostelu.jsp");
+        String nimi = request.getParameter("muokattavanNimi");
+        request.setAttribute("nimi", nimi);
+
+        RequestDispatcher dispatcher = request.getRequestDispatcher("MuokkaaArvosteluja.jsp");
         Kayttaja kirjautunut = (Kayttaja) session.getAttribute("Kirjautunut");
         OnkoKirjautunut k = new OnkoKirjautunut();
         String palautus = k.onkoKirjautunut(kirjautunut);
         request.setAttribute("KirjautumisTilanne", palautus);
-
-        List<Peli> pelit = Peli.getPelitJossaEiTunnuksenArvostelua(kirjautunut.getTunnus());
-        request.setAttribute("pelit", pelit);
-
         dispatcher.forward(request, response);
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -60,13 +55,7 @@ public class LisaaArvostelu extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-        } catch (NamingException ex) {
-            Logger.getLogger(LisaaArvostelu.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(LisaaArvostelu.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        processRequest(request, response);
     }
 
     /**
@@ -80,13 +69,7 @@ public class LisaaArvostelu extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-        } catch (NamingException ex) {
-            Logger.getLogger(LisaaArvostelu.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(LisaaArvostelu.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        processRequest(request, response);
     }
 
     /**

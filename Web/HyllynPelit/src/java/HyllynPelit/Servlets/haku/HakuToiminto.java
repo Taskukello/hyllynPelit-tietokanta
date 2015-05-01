@@ -1,6 +1,6 @@
-package HyllynPelit.Servlets;
+package HyllynPelit.Servlets.haku;
 
-import HyllynPelit.Alusta;
+import HyllynPelit.KommentinHaku;
 import HyllynPelit.Models.Kayttaja;
 import HyllynPelit.Models.OnkoKirjautunut;
 import HyllynPelit.Peli;
@@ -8,6 +8,7 @@ import HyllynPelit.UudelleenOhjaus;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,7 +24,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author Aki
  */
-public class PelinMuokkaus extends HttpServlet {
+public class HakuToiminto extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,30 +37,23 @@ public class PelinMuokkaus extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, NamingException, SQLException {
-        response.setContentType("text/html;charset=UTF-8");
+        response.setContentType("text/html;charset=ISO-8859-1");
         HttpSession session = request.getSession();
+        session.removeAttribute("valinta");             //poistaa pelin tarkempien tietojen selailussa käytettyä atribuuttia
 
-        RequestDispatcher dispatcher = request.getRequestDispatcher("PelinMuokkaus.jsp");
-        UudelleenOhjaus o = (UudelleenOhjaus) session.getAttribute("Nimi");
-
-        String perkele = o.getAtribuutti();
-
-        List<Alusta> alustat = Alusta.GetAlustat();
-        request.setAttribute("alustat", alustat);
-
-        Peli peli = Peli.haePeli(perkele);
-        request.setAttribute("Nimi", peli.getPeli());
-        request.setAttribute("Julkaisuvuosi", peli.getVuosi());
-        request.setAttribute("Alusta", peli.getAlusta());
-        request.setAttribute("Tekija", peli.getTekija());
-        request.setAttribute("lisaysPaiva", peli.getLisays());
+        RequestDispatcher dispatcher = request.getRequestDispatcher("Pelit.jsp");
         Kayttaja kirjautunut = (Kayttaja) session.getAttribute("Kirjautunut");
         OnkoKirjautunut k = new OnkoKirjautunut();
         String palautus = k.onkoKirjautunut(kirjautunut);
         request.setAttribute("KirjautumisTilanne", palautus);
-        session.removeAttribute("Nimi");
-        dispatcher.forward(request, response);
-    }
+        String haku = request.getParameter("hakuSana");
+        List<Peli> peli = Peli.haePelitHakuSanalla(haku);
+        UudelleenOhjaus ohjaus = new UudelleenOhjaus("hakuLista");
+        ohjaus.setPeli(peli);
+        session.setAttribute("hakuTulos", ohjaus);
+        response.sendRedirect("HakuTulokset");
+        }
+    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -76,9 +70,9 @@ public class PelinMuokkaus extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (NamingException ex) {
-            Logger.getLogger(PelinMuokkaus.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(HakuToiminto.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(PelinMuokkaus.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(HakuToiminto.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -96,9 +90,9 @@ public class PelinMuokkaus extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (NamingException ex) {
-            Logger.getLogger(PelinMuokkaus.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(HakuToiminto.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(PelinMuokkaus.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(HakuToiminto.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

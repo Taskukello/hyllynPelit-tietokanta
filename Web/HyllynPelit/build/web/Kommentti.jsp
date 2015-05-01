@@ -1,15 +1,14 @@
 
 
-<%@page contentType="text/html" pageEncoding="UTF-8" trimDirectiveWhitespaces="true" %>
+<%@page contentType="text/html" pageEncoding="ISO-8859-1" trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
         <link href="css/bootstrap.css" rel="stylesheet">
         <link href="css/bootstrap-theme.css" rel="stylesheet">
         <link href="css/main.css" rel="stylesheet">
@@ -28,8 +27,16 @@
             <li><a href="${pageContext.request.contextPath}/Kommentit">Kommentit</a></li> 
         </ul>
 
-        <div class="reunus">   <%-- itse tehty reunus keskitt√§m√§√§n sivun sis√§lt√∂√§ --%>
-
+        <div class="reunus">   <%-- itse tehty reunus keskitt‰m‰‰n sivun sis‰ltˆ‰ --%>
+            <h3>julkaisia: ${pelinjulkaisia}</h3>
+            <h3>julkaisuvuosi: ${pelinJvuosi}</h3>
+            <c:if test="${keskiarvo < 1}">
+                <h3> pelill‰ ei ole viel‰ yht‰k‰‰n arvostelua! </h3>
+            </c:if>
+            <c:if test="${keskiarvo > 0}">
+                <h3>arvosteluiden keskiarvo: ${keskiarvo}</h3>
+                <h3>arvosteluiden m‰‰r‰: ${arvosteluita}</h3>
+            </c:if>
             <c:forEach var="Kommentti" items="${kommentit}">
 
                 <div class="Kommentti"></div>
@@ -43,7 +50,7 @@
                 <form class="form-horizonal" role="form" action="PelitValinnanUudelleenOhjaus" method="POST">
                     <input type="hidden" name="muokattavanNimi" value="${pelinNimi}"/>
                     <c:if test="${onkoKommentti < 1}">
-                        <button type="submit" class="btn btn-default" name="action" value="Kommentti">Lis√§√§ Kommentti</button>
+                        <button type="submit" class="btn btn-default" name="action" value="Kommentti">Lis‰‰ Kommentti</button>
                     </c:if>
                     <c:if test="${onkoKommentti > 0}">
                         <button type="submit" class="btn btn-default" name="action" value="KommentinMuokkaus">Muokkaa Kommenttiasi</button>
@@ -51,9 +58,9 @@
                     <c:if test="${fn:contains(oikeus, 'Admin')}">
                         <button type="submit" class="btn btn-default" name="action" value="Poista">Poista peli</button>
                         <div> HUOM! Poistaessasi Pelin kaikki kyseiseen peliin viittaava tieto</div>
-                        <div> (kommentit, arvostelut) katoaa my√∂s! </div>
+                        <div> (kommentit, arvostelut) katoaa myˆs! </div>
                     </c:if>
-                    <button type="submit" class="btn btn-default" name="action" value="muokkaa">Muokkaa Peli√§</button>
+                    <button type="submit" class="btn btn-default" name="action" value="muokkaa">Muokkaa Peli‰</button>
                 </form>
             </div>
 

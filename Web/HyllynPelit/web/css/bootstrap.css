@@ -4900,6 +4900,11 @@ a.badge:focus {
    width:1800px; 
 }
 
+.pieniReunus{
+   margin:0 auto; 
+   width:1900px; 
+}
+
 .thumbnail {
   display: block;
   padding: 4px;

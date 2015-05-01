@@ -28,10 +28,17 @@ public class Etusivu extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+        response.setContentType("text/html;charset=ISO-8859-1");
         HttpSession session = request.getSession();
         session.removeAttribute("valinta");             //poistaa pelin tarkempien tietojen selailussa käytettyä atribuuttia
         RequestDispatcher dispatcher = request.getRequestDispatcher("Etusivu.jsp");
+        String ilmoitus = (String) session.getAttribute("ilmoitus");
+
+        if (ilmoitus != null) {
+            session.removeAttribute("ilmoitus");
+
+            request.setAttribute("ilmoitus", ilmoitus);
+        }
         Kayttaja kirjautunut = (Kayttaja) session.getAttribute("Kirjautunut");
         OnkoKirjautunut k = new OnkoKirjautunut();
         String palautus = k.onkoKirjautunut(kirjautunut);

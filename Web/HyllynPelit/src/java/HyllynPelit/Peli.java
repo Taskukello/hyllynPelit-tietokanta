@@ -51,13 +51,11 @@ public class Peli {
 
     public static List<Peli> getPelit() throws NamingException, SQLException {
         Connection yhteys = Yhteys.getYhteys();
-        // int montako = 10;
-        // int sivu = 2;
 
-        String sql = "SELECT Peli.PelinNimi, to_char(MilloinLisätty,'DD.MM.YYYY') MilloinLisätty,  Julkaisuvuosi, Tekijä, Pelialusta, round(avg(Arvostelu.arvosana), 1) keskiarvo from Peli INNER JOIN Arvostelu ON Peli.PelinNimi = Arvostelu.PelinNimi GROUP BY Peli.PelinNimi, MilloinLisätty, peli.Julkaisuvuosi, peli.tekijä, peli.pelialusta  ORDER by Peli.PelinNimi";
+        String sql = "SELECT Peli.PelinNimi, to_char(MilloinLisätty,'DD.MM.YYYY') MilloinLisätty,  Julkaisuvuosi, Tekijä, Pelialusta, "
+                + "round(avg(Arvostelu.arvosana), 1) keskiarvo from Peli INNER JOIN Arvostelu ON Peli.PelinNimi = Arvostelu.PelinNimi "
+                + "GROUP BY Peli.PelinNimi, MilloinLisätty, peli.Julkaisuvuosi, peli.tekijä, peli.pelialusta  ORDER by Peli.PelinNimi";
         PreparedStatement kysely = yhteys.prepareStatement(sql);
-        // kysely.setInt(1, montako);
-        // kysely.setInt(2, (sivu - 1) * montako);
         ResultSet rs = kysely.executeQuery();
         ArrayList<Peli> kayttajat = new ArrayList<Peli>();
         while (rs.next()) {
@@ -88,11 +86,12 @@ public class Peli {
         return kayttajat;
 
     }
-    
-        public static List<Peli> getPelitJossaEiTunnuksenArvostelua(String tunnus) throws NamingException, SQLException {
+
+    public static List<Peli> getPelitJossaEiTunnuksenArvostelua(String tunnus) throws NamingException, SQLException {
         Connection yhteys = Yhteys.getYhteys();
 
-        String sql = "SELECT Peli.PelinNimi, to_char(MilloinLisätty,'DD.MM.YYYY') MilloinLisätty,  Julkaisuvuosi, Tekijä, Pelialusta from Peli WHERE PelinNimi NOT IN (select PelinNimi from Arvostelu where tunnus = ?)";
+        String sql = "SELECT Peli.PelinNimi, to_char(MilloinLisätty,'DD.MM.YYYY') MilloinLisätty,  Julkaisuvuosi, Tekijä, Pelialusta from Peli "
+                + "WHERE PelinNimi NOT IN (select PelinNimi from Arvostelu where tunnus = ?)";
         PreparedStatement kysely = yhteys.prepareStatement(sql);
         kysely.setString(1, tunnus);
         ResultSet rs = kysely.executeQuery();
@@ -173,9 +172,66 @@ public class Peli {
 
     }
 
+    /**
+     * Tämä metodi on miltein sama kuin "haePelit" metodi Suurena erona
+     * kuitenkin on ehto osion. rakenne jonka takia tämä metodi erillisenä onkin
+     * olemassa. "haePelit" sisältää WHERE osiossa pelinNimi = ?,
+     * haePelitHakuSanalla puolestaan etsii LIKE ehdolla pelinNimestä ja
+     * valmistajasta vastaavaisuutta.
+     *
+     * @param hakuSana hakee pelejä jonka nimi, tai valmistaja sisältää
+     * hakusanan
+     * @return palauttaa listan jossa halutut pelit
+     * @throws NamingException öööh virhe?
+     * @throws SQLException jos SQL haku ei onnistu
+     */
+    public static List<Peli> haePelitHakuSanalla(String hakuSana) throws NamingException, SQLException {
+
+        String sql = "SELECT Peli.PelinNimi, to_char(MilloinLisätty,'DD.MM.YYYY') MilloinLisätty, Julkaisuvuosi, Tekijä, Pelialusta, "
+                + "round(avg(Arvostelu.arvosana), 1) keskiarvo "
+                + "FROM Peli INNER JOIN Arvostelu ON Peli.PelinNimi = Arvostelu.PelinNimi "
+                + "WHERE LOWER(Peli.PelinNimi) LIKE ? OR LOWER(tekijä) "
+                + "LIKE ? GROUP BY Peli.PelinNimi, MilloinLisätty, peli.Julkaisuvuosi, peli.tekijä, peli.pelialusta  ORDER by Peli.PelinNimi";
+        Connection yhteys = Yhteys.getYhteys();
+        PreparedStatement kysely = yhteys.prepareStatement(sql);
+        kysely.setString(1, "%" + hakuSana.toLowerCase() + "%");
+        kysely.setString(2, "%" + hakuSana.toLowerCase() + "%");
+
+        ResultSet rs = kysely.executeQuery();
+        ArrayList<Peli> pelit = new ArrayList<Peli>();
+        while (rs.next()) {
+            Peli k = new Peli();
+            k.setPeli(rs.getString("PelinNimi"));
+            k.setLisays(rs.getString("MilloinLisätty"));
+            k.setVuosi(rs.getString("Julkaisuvuosi"));
+            k.setTekija(rs.getString("Tekijä"));
+            k.setAlusta(rs.getString("Pelialusta"));
+            k.setKeskiarvo(rs.getDouble("keskiarvo"));
+            pelit.add(k);
+        }
+
+        try {
+            rs.close();
+        } catch (Exception e) {
+        }
+
+        try {
+            kysely.close();
+        } catch (Exception e) {
+        }
+        try {
+            yhteys.close();
+        } catch (Exception e) {
+        }
+        return pelit;
+    }
+
     public static Peli haePeli(String nimi) throws NamingException, SQLException {
 
-        String sql = "SELECT PelinNimi, to_char(MilloinLisätty,'DD.MM.YYYY') MilloinLisätty, Julkaisuvuosi, Tekijä, Pelialusta from Peli WHERE PelinNimi = ?";
+        String sql = "SELECT Peli.PelinNimi, to_char(MilloinLisätty,'DD.MM.YYYY') MilloinLisätty, Julkaisuvuosi, Tekijä, Pelialusta, "
+                + "round(avg(Arvostelu.arvosana), 1) keskiarvo FROM Peli INNER JOIN Arvostelu ON Peli.PelinNimi = Arvostelu.PelinNimi "
+                + "WHERE Peli.PelinNimi = ? "
+                + "GROUP BY Peli.PelinNimi, MilloinLisätty, peli.Julkaisuvuosi, peli.tekijä, peli.pelialusta  ORDER by Peli.PelinNimi";
         Connection yhteys = Yhteys.getYhteys();
         PreparedStatement kysely = yhteys.prepareStatement(sql);
         kysely.setString(1, nimi);
@@ -189,6 +245,7 @@ public class Peli {
             k.setVuosi(rs.getString("Julkaisuvuosi"));
             k.setTekija(rs.getString("Tekijä"));
             k.setAlusta(rs.getString("Pelialusta"));
+            k.setKeskiarvo(rs.getDouble("keskiarvo"));
             kayttajat.add(k);
         }
 
@@ -209,18 +266,26 @@ public class Peli {
         return k;
     }
 
-    public static List<Peli> haePelitTunnuksella(String tunnus) throws NamingException, SQLException {
+    public static List<Peli> haePelitNimella(String PelinNimi) throws NamingException, SQLException {
 
-        String sql = "Select PelinNimi from Arvostelu WHERE tunnus = ?";
+        String sql = "SELECT Peli.PelinNimi, to_char(MilloinLisätty,'DD.MM.YYYY') MilloinLisätty, Julkaisuvuosi, Tekijä, Pelialusta, "
+                + "round(avg(Arvostelu.arvosana), 1) keskiarvo FROM Peli INNER JOIN Arvostelu ON Peli.PelinNimi = Arvostelu.PelinNimi "
+                + "WHERE Peli.PelinNimi = ? GROUP BY Peli.PelinNimi, MilloinLisätty, peli.Julkaisuvuosi, peli.tekijä, peli.pelialusta  "
+                + "ORDER by Peli.PelinNimi";
         Connection yhteys = Yhteys.getYhteys();
         PreparedStatement kysely = yhteys.prepareStatement(sql);
-        kysely.setString(1, tunnus);
+        kysely.setString(1, PelinNimi);
 
         ResultSet rs = kysely.executeQuery();
         ArrayList<Peli> peli = new ArrayList<Peli>();
         while (rs.next()) {
             Peli k = new Peli();
             k.setPeli(rs.getString("PelinNimi"));
+            k.setLisays(rs.getString("MilloinLisätty"));
+            k.setVuosi(rs.getString("Julkaisuvuosi"));
+            k.setTekija(rs.getString("Tekijä"));
+            k.setAlusta(rs.getString("Pelialusta"));
+            k.setKeskiarvo(rs.getInt("keskiarvo"));
             peli.add(k);
         }
 
@@ -270,7 +335,8 @@ public class Peli {
 
     public void MuokkaaPelia(Peli peli) throws NamingException, SQLException {
         TaytaTyhjat(peli);
-        String sql = "UPDATE Peli set PelinNimi = ?, Julkaisuvuosi = ?, Tekijä = ?, MilloinLisätty = CURRENT_TIMESTAMP, Pelialusta = ? Where PelinNimi = ?";
+        String sql = "UPDATE Peli set PelinNimi = ?, Julkaisuvuosi = ?, Tekijä = ?, MilloinLisätty = CURRENT_TIMESTAMP, "
+                + "Pelialusta = ? Where PelinNimi = ?";
         Connection yhteys = Yhteys.getYhteys();
         PreparedStatement kysely = yhteys.prepareStatement(sql);
         kysely.setString(1, this.getPeli());
@@ -292,6 +358,13 @@ public class Peli {
         }
     }
 
+    /**
+     * Pelin muokkausta avustava metodi, jos käyttäjä jättää tietopalkkeja
+     * tyhjäksi muokkauksessa. Järjestelmä automaattisesti Hakee alkuperäiset
+     * tiedot ja täyttää tyhjät kohdat niillä.
+     *
+     * @param peli pelin tiedot.
+     */
     public void TaytaTyhjat(Peli peli) {
         if (this.tekija == null || this.tekija.trim().length() == 0) {
             this.tekija = peli.getTekija();

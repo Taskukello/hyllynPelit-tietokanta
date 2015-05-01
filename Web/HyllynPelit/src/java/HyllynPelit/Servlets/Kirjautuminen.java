@@ -29,14 +29,18 @@ public class Kirjautuminen extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+        response.setContentType("text/html;charset=ISO-8859-1");
         HttpSession session = request.getSession();
         RequestDispatcher dispatcher = request.getRequestDispatcher("Kirjautuminen.jsp");
+        String uusi = request.getParameter("uusi");
+        if (uusi == null) {
+            String lahde = request.getParameter("lahde");
+            request.setAttribute("lahde", lahde);
 
-        String lahde = request.getParameter("lahde");
-        request.setAttribute("lahde", lahde);
-        
-         dispatcher.forward(request, response);
+            dispatcher.forward(request, response);
+        }else{
+            response.sendRedirect("Sign_up");
+        }
     }
 
 // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -1,10 +1,12 @@
-<%@page contentType="text/html" pageEncoding="UTF-8" trimDirectiveWhitespaces="true" %>
+<%@page contentType="text/html" pageEncoding="ISO-8859-1" trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link href="css/bootstrap.css" rel="stylesheet">
         <link href="css/bootstrap-theme.css" rel="stylesheet">
@@ -37,7 +39,8 @@
                         <option value="2">2.</option>
                         <option value="3">3.</option>
                         <option value="4">4.</option>
-                        <option value="5">6.</option>
+                        <option value="5">5.</option>
+                        <option value="6">6.</option>
                         <option value="7">7.</option>
                         <option value="8">8.</option>
                         <option value="9">9.</option>
@@ -47,7 +50,7 @@
                 </div>
                 <div class="form-group" style="float: right"></div>
                 <div class="col-md-offset-2 col-md-10">
-                    <button type="submit" class="btn btn-default">Hyv√§ksy</button>
+                    <button type="submit" class="btn btn-default">Hyv‰ksy</button>
                    
                 </div>
             </form>

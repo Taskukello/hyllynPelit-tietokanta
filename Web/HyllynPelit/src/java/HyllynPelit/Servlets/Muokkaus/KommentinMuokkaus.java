@@ -35,7 +35,7 @@ public class KommentinMuokkaus extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, NamingException, SQLException {
-        response.setContentType("text/html;charset=UTF-8");
+        response.setContentType("text/html;charset=ISO-8859-1");
         HttpSession session = request.getSession();
         RequestDispatcher dispatcher = request.getRequestDispatcher("KommentinMuokkaus.jsp");
         Kayttaja kirjautunut = (Kayttaja) session.getAttribute("Kirjautunut");
@@ -50,7 +50,7 @@ public class KommentinMuokkaus extends HttpServlet {
         if (button == null) {
 
             if (uusiKommentti.onkoKelvollinen() == true) {
-                uusiKommentti.MuokkaaKommentia(kirjautunut.getTunnus());
+                uusiKommentti.MuokkaaKommentia(kirjautunut.getTunnus(), uusiKommentti.getNimi());
 
                 session.setAttribute("ilmoitus", "Kommenttiasi on muokattu onnistuneesti.");
                 session.removeAttribute("valinta");

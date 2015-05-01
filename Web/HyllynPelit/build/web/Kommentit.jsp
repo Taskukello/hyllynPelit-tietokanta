@@ -1,48 +1,50 @@
 
-<%@page contentType="text/html" pageEncoding="UTF-8" trimDirectiveWhitespaces="true" %>
+<%@page contentType="text/html" pageEncoding="ISO-8859-1" trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
         <link href="css/bootstrap.css" rel="stylesheet">
         <link href="css/bootstrap-theme.css" rel="stylesheet">
         <link href="css/main.css" rel="stylesheet">
-        
-        <c:if test="${fn:contains(KirjautumisTilanne, 'Et ole kirjautunut sis√§√§n')}">
-        <form action="Kirjautuminen" method="POST">
-            <input type="hidden" name="lahde" value="Kommentit"/>
-            <button type="submit" class="btn btn-default"  style="float: right">Kirjaudu sis√§√§n</button>
-        </form>
-    </c:if>
-    <c:if test="${fn:contains(KirjautumisTilanne, 'Kirjautunut sis√§√§n k√§ytt√§j√§ll√§: ')}">
-        <form action="KirjauduUlos" method="POST">
-            <button type="submit" class="btn btn-default"  style="float: right">Kirjaudu Ulos</button>
-        </form>
-    </c:if> 
+    <div class="pieniReunus">
+        <c:if test="${fn:contains(KirjautumisTilanne, 'Et ole kirjautunut sis‰‰n')}">
+            <form action="Kirjautuminen" method="POST">
+                <input type="hidden" name="lahde" value="Arvostelut"/>
+                <button type="submit" class="btn btn-default"  style="float: right">Kirjaudu sis‰‰n</button>
+            </form>
+        </c:if>
+        <c:if test="${fn:contains(KirjautumisTilanne, 'Kirjautunut sis‰‰n k‰ytt‰j‰ll‰: ')}">
+            <form action="KirjauduUlos" method="POST">
+                <button type="submit" class="btn btn-default"  style="float: right">Kirjaudu Ulos</button>
+            </form>
+        </c:if>   
+        <t:kirjautunut pageTitle="Kommentit">
 
-    <t:kirjautunut pageTitle="Kommentit">
-
-    </t:kirjautunut>
-    <title>Kommentit</title>
+        </t:kirjautunut>
+        <title>Kommentit</title>
+    </div>
 </head>
 <body>
-    <h1>Kommentit</h1>
+    <div class="pieniReunus">
+        <h1>Kommentit</h1>
+    </div> 
+    <br>
 
-    <div class="row" >
-
-        <div class="col-lg-6" style="float: right;">
+    <div class="container" style="float: right">
+        <form class="form-horizonal" role="form" action="HakuToimintoKommentit" method="POST">
             <div class="input-group">
-                <input type="text" class="form-control" placeholder="Pelin nimi">
+                <input name="hakuSana" type="text" class="form-control" placeholder="Pelin nimi/ lis‰‰j‰">
                 <span class="input-group-btn">
-                    <button class="btn btn-default" type="button">hae!</button>
+                    <button type="submit" class="btn btn-default" type="button">hae!</button>
                 </span>
-            </div><!-- /input-group -->
-        </div><!-- /.col-lg-6 -->
-    </div><!-- /.row -->
+            </div>
+        </form>
+    </div>
 
     <ul class="nav nav-tabs">
         <li><a href="${pageContext.request.contextPath}/Etusivu"> Etusivu </a></li>
@@ -51,8 +53,11 @@
 
         <li class="active"><a>Kommentit</a></li> 
     </ul>
-    <h6>Pelej√§ yhteens√§: 0</h6>
-    <h6> </h6>
+    <div class="pieniReunus">
+        <h6>Pelej‰ yhteens‰: ${kommenttienmaara}</h6>
+    </div>
+    <br>
+    <br>
     <table class="table table-bordered">
         <thead>
             <tr>

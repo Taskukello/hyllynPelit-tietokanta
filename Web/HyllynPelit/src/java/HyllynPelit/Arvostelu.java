@@ -114,6 +114,29 @@ public class Arvostelu {
         return lkm;
     }
 
+        public static int lukumaaraPelille(String pelinNimi) throws NamingException, SQLException {
+        String sql = "Select count(*) as lkm FROM Arvostelu WHERE PelinNimi = ?";
+        Connection yhteys = Yhteys.getYhteys();
+        PreparedStatement kysely = yhteys.prepareStatement(sql);
+        kysely.setString(1, pelinNimi);
+        ResultSet tulokset = kysely.executeQuery();
+        tulokset.next();
+        int lkm = tulokset.getInt("lkm");
+        try {
+            tulokset.close();
+        } catch (Exception e) {
+        }
+        try {
+            kysely.close();
+        } catch (Exception e) {
+        }
+        try {
+            yhteys.close();
+        } catch (Exception e) {
+        }
+
+        return lkm;
+    }
     public static void MuokkaaArvostelua(int arv, String pelinNimi, String tunnus) throws NamingException, SQLException {
         String sql = "UPDATE arvostelu set arvosana = ? WHERE pelinNimi = ? AND tunnus = ?";
         Connection yhteys = Yhteys.getYhteys();
@@ -169,6 +192,8 @@ public class Arvostelu {
         return arvostelut;
 
     }
+    
+
 
     public static Arvostelu haeID(String pelinNimi, String tunnus) throws NamingException, SQLException {
         Connection yhteys = Yhteys.getYhteys();
@@ -201,6 +226,42 @@ public class Arvostelu {
         }
 
         return a;
+
+    }
+
+    public static List<Arvostelu> haeArvostelutHakuSanalla(String hakuSana) throws NamingException, SQLException {
+        Connection yhteys = Yhteys.getYhteys();
+
+        String sql = "SELECT PelinNimi, arvosana, to_char(ArvostelunLisaysPaiva,'DD.MM.YYYY') ArvostelunLisaysPaiva, tunnus from Arvostelu WHERE LOWER(PelinNimi) LIKE ? OR LOWER(tunnus) LIKE ?";
+        PreparedStatement kysely = yhteys.prepareStatement(sql);
+        kysely.setString(1, "%" + hakuSana.toLowerCase() + "%");
+        kysely.setString(2, "%" + hakuSana.toLowerCase() + "%");
+        ResultSet rs = kysely.executeQuery();
+
+        ArrayList<Arvostelu> arvostelut = new ArrayList<Arvostelu>();
+        while (rs.next()) {
+            Arvostelu k = new Arvostelu();
+            k.setNimi(rs.getString("PelinNimi"));
+            k.setArvosana(rs.getInt("arvosana"));
+            k.setLisayspaiva(rs.getString("ArvostelunLisaysPaiva"));
+            k.setTunnus(rs.getString("tunnus"));
+            arvostelut.add(k);
+
+        }
+        try {
+            rs.close();
+        } catch (Exception e) {
+        }
+        try {
+            kysely.close();
+        } catch (Exception e) {
+        }
+        try {
+            yhteys.close();
+        } catch (Exception e) {
+        }
+
+        return arvostelut;
 
     }
 
@@ -273,8 +334,6 @@ public class Arvostelu {
         return arvostelut;
 
     }
-    
-    
 
     public static void PoistaArvostelu(String tunnus, String pelinNimi, boolean bool) throws NamingException, SQLException {
 

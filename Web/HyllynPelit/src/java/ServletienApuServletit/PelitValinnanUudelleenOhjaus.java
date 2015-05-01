@@ -35,7 +35,7 @@ public class PelitValinnanUudelleenOhjaus extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, NamingException, SQLException {
-        response.setContentType("text/html;charset=UTF-8");
+        response.setContentType("text/html;charset=ISO-8859-1");
 
         HttpSession session = request.getSession();
         RequestDispatcher dispatcher = request.getRequestDispatcher("Kommentti.jsp");
@@ -46,7 +46,6 @@ public class PelitValinnanUudelleenOhjaus extends HttpServlet {
         UudelleenOhjaus ohjaus = new UudelleenOhjaus(nimi);
         session.setAttribute("Nimi", ohjaus);
         if (button.equals("muokkaa")) {
-
             response.sendRedirect("PelinMuokkaus");
         } else if (button.equals("Kommentti")) {
             response.sendRedirect("KommentinLisays");

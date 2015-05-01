@@ -1,10 +1,13 @@
-package HyllynPelit.Servlets;
+package HyllynPelit.Servlets.Lisays;
 
+import HyllynPelit.Alusta;
+import HyllynPelit.Arvostelu;
 import HyllynPelit.Models.Kayttaja;
 import HyllynPelit.Models.OnkoKirjautunut;
 import HyllynPelit.Peli;
 import java.io.IOException;
 import java.io.PrintWriter;
+import static java.lang.Integer.parseInt;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.logging.Level;
@@ -21,7 +24,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author Aki
  */
-public class PelinLisays extends HttpServlet {
+public class Arvostelunlisaily extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,32 +39,31 @@ public class PelinLisays extends HttpServlet {
             throws ServletException, IOException, NamingException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
-        RequestDispatcher dispatcher = request.getRequestDispatcher("PelinLisays.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("LisaaArvostelu.jsp");
         Kayttaja kirjautunut = (Kayttaja) session.getAttribute("Kirjautunut");
         OnkoKirjautunut k = new OnkoKirjautunut();
         String palautus = k.onkoKirjautunut(kirjautunut);
         request.setAttribute("KirjautumisTilanne", palautus);
+        
+        Arvostelu uusiArvostelu = new Arvostelu();
+        String h = request.getParameter("arvosana");
+        int arvo = parseInt(h);
+        uusiArvostelu.setArvosana(arvo);
+        uusiArvostelu.setNimi(request.getParameter("PelinNimi"));
+        
 
-        Peli uusiPeli = new Peli();
-        uusiPeli.setAlusta(request.getParameter("Alusta"));
-        uusiPeli.setPeli(request.getParameter("PelinNimi"));
-        uusiPeli.setTekija(request.getParameter("Tekija"));
-        uusiPeli.setVuosi(request.getParameter("Julkaisuvuosi"));
 
-        if (uusiPeli.onkoKelvollinen() == true) {
-            uusiPeli.lisaaPeliKantaan();
+        if (uusiArvostelu.onkoKelvollinen() == true) {
+            uusiArvostelu.lisaaArvosteluKantaan(kirjautunut.getTunnus());
 
-            
             session.setAttribute("ilmoitus", "Uusi peli lisätty onnistuneesti.");
-            response.sendRedirect("Pelit");
-            
+            response.sendRedirect("Arvostelut");
         } else {
-            Collection<String> virheet = uusiPeli.getVirheet();
-            request.setAttribute("virheet", virheet);
-            request.setAttribute("Peli", uusiPeli);
-            dispatcher.forward(request, response);
+            Collection<String> virheet = uusiArvostelu.getVirheet();
+            session.setAttribute("virheet", virheet);
+            session.setAttribute("arvostelut", uusiArvostelu);
+            response.sendRedirect("LisaaArvostelu");
         }
-
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -79,9 +81,9 @@ public class PelinLisays extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (NamingException ex) {
-            Logger.getLogger(PelinLisays.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Arvostelunlisaily.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(PelinLisays.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Arvostelunlisaily.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -99,9 +101,9 @@ public class PelinLisays extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (NamingException ex) {
-            Logger.getLogger(PelinLisays.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Arvostelunlisaily.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(PelinLisays.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Arvostelunlisaily.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

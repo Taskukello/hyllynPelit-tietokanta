@@ -1,15 +1,13 @@
-package HyllynPelit.Servlets;
+package HyllynPelit.Servlets.haku;
 
-import HyllynPelit.Alusta;
-import HyllynPelit.Arvostelu;
 import HyllynPelit.Models.Kayttaja;
 import HyllynPelit.Models.OnkoKirjautunut;
 import HyllynPelit.Peli;
+import HyllynPelit.UudelleenOhjaus;
 import java.io.IOException;
 import java.io.PrintWriter;
-import static java.lang.Integer.parseInt;
 import java.sql.SQLException;
-import java.util.Collection;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.naming.NamingException;
@@ -24,7 +22,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author Aki
  */
-public class Arvostelunlisaily extends HttpServlet {
+public class HakuTulokset extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,33 +35,35 @@ public class Arvostelunlisaily extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, NamingException, SQLException {
-        response.setContentType("text/html;charset=UTF-8");
+        response.setContentType("text/html;charset=ISO-8859-1");
         HttpSession session = request.getSession();
-        RequestDispatcher dispatcher = request.getRequestDispatcher("LisaaArvostelu.jsp");
+        session.removeAttribute("valinta");             //poistaa pelin tarkempien tietojen selailussa käytettyä atribuuttia
+        String ilmoitus = (String) session.getAttribute("ilmoitus");
+        UudelleenOhjaus ohjaus = (UudelleenOhjaus) session.getAttribute("hakuTulos");
+        session.removeAttribute("hakuTulos");
+        
+        if (ilmoitus != null) {
+            session.removeAttribute("ilmoitus");
+
+            request.setAttribute("ilmoitus", ilmoitus);
+        }
+
+        List<Peli> pelit = ohjaus.getPeli();
+        request.setAttribute("pelit", pelit);
+        int pelienMaara = pelit.size();
+        request.setAttribute("pelienMaara", pelienMaara);
+
+        RequestDispatcher dispatcher = request.getRequestDispatcher("Pelit.jsp");
         Kayttaja kirjautunut = (Kayttaja) session.getAttribute("Kirjautunut");
         OnkoKirjautunut k = new OnkoKirjautunut();
         String palautus = k.onkoKirjautunut(kirjautunut);
+        boolean krohm = k.onkoKirjautunutBoolean(kirjautunut);
         request.setAttribute("KirjautumisTilanne", palautus);
-        
-        Arvostelu uusiArvostelu = new Arvostelu();
-        String h = request.getParameter("arvosana");
-        int arvo = parseInt(h);
-        uusiArvostelu.setArvosana(arvo);
-        uusiArvostelu.setNimi(request.getParameter("PelinNimi"));
-        
-
-
-        if (uusiArvostelu.onkoKelvollinen() == true) {
-            uusiArvostelu.lisaaArvosteluKantaan(kirjautunut.getTunnus());
-
-            session.setAttribute("ilmoitus", "Uusi peli lisätty onnistuneesti.");
-            response.sendRedirect("Arvostelut");
-        } else {
-            Collection<String> virheet = uusiArvostelu.getVirheet();
-            session.setAttribute("virheet", virheet);
-            session.setAttribute("arvostelut", uusiArvostelu);
-            response.sendRedirect("LisaaArvostelu");
+        if (krohm == true) {
+            request.setAttribute("oikeus", kirjautunut.getTaso());
         }
+        dispatcher.forward(request, response);
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -81,9 +81,9 @@ public class Arvostelunlisaily extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (NamingException ex) {
-            Logger.getLogger(Arvostelunlisaily.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(HakuTulokset.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(Arvostelunlisaily.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(HakuTulokset.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -101,9 +101,9 @@ public class Arvostelunlisaily extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (NamingException ex) {
-            Logger.getLogger(Arvostelunlisaily.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(HakuTulokset.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(Arvostelunlisaily.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(HakuTulokset.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

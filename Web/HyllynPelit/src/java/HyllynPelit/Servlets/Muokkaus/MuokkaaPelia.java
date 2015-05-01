@@ -35,7 +35,7 @@ public class MuokkaaPelia extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, NamingException, SQLException {
-        response.setContentType("text/html;charset=UTF-8");
+        response.setContentType("text/html;charset=ISO-8859-1");
         HttpSession session = request.getSession();
         RequestDispatcher dispatcher = request.getRequestDispatcher("PelinMuokkaus.jsp");
         Kayttaja kirjautunut = (Kayttaja) session.getAttribute("Kirjautunut");
@@ -51,7 +51,7 @@ public class MuokkaaPelia extends HttpServlet {
         muokattuPeli.setTekija(request.getParameter("Tekija"));
         muokattuPeli.setVuosi(request.getParameter("Julkaisuvuosi"));
         muokattuPeli.setAlusta(request.getParameter("Alusta"));
-
+        Peli.haePelitNimella(nimi);
         muokattuPeli.MuokkaaPelia(uusiPeli);
         session.setAttribute("ilmoitus", "Pelin " + nimi + " tiedot on päivitetty.");
         response.sendRedirect("Pelit");

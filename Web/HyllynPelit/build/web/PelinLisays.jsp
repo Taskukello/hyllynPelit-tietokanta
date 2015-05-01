@@ -1,14 +1,12 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@page contentType="text/html" pageEncoding="UTF-8" trimDirectiveWhitespaces="true" %>
+<%@page contentType="text/html" pageEncoding="ISO-8859-1" trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
         <link href="css/bootstrap.css" rel="stylesheet">
         <link href="css/bootstrap-theme.css" rel="stylesheet">
         <link href="css/main.css" rel="stylesheet">
@@ -17,11 +15,11 @@
         <div class="alert alert-danger">${virheet}
         </div>
     </c:if>
-    <title>Lis√§√§ peli</title>
+    <title>Lis‰‰ peli</title>
 
 </head>
 <body>
-    <h1>Lis√§√§ uusi peli</h1>
+    <h1>Lis‰‰ uusi peli</h1>
     <ul class="nav nav-tabs">
         <li><a href="${pageContext.request.contextPath}/Etusivu"> Etusivu </a></li>
         <li> <a href="${pageContext.request.contextPath}/Pelit">Pelit</a></li>
@@ -42,10 +40,10 @@
 
             <div class="form-group">
 
-                <label for="inputGametekija" class="col-md-2 control-label">Pelin tekij√§</label>
+                <label for="inputGametekija" class="col-md-2 control-label">Pelin tekij‰</label>
                 <div class="col-md-10">
-                    <input type="Pelin Tekij√§" class="form-control" id="inputGametekija" name="Tekija" 
-                           placeholder="Tekij√§">
+                    <input type="Pelin Tekij‰" class="form-control" id="inputGametekija" name="Tekija" 
+                           placeholder="Tekij‰">
                 </div>
 
             </div>
@@ -82,6 +80,19 @@
                         <option value="1994">1994</option>
                         <option value="1993">1993</option>
                         <option value="1992">1992</option>
+                        <option value="1991">1991</option>
+                        <option value="1990">1990</option>
+                        <option value="1989">1989</option>
+                        <option value="1988">1988</option>
+                        <option value="1987">1987</option>
+                        <option value="1986">1986</option>
+                        <option value="1985">1985</option>
+                        <option value="1984">1984</option>
+                        <option value="1983">1983</option>
+                        <option value="1982">1982</option>
+                        <option value="1981">1981</option>
+                        <option value="1980">1980</option>
+
 
                 </select>
 
@@ -90,18 +101,19 @@
 
 
             <div class="form-group">
-                <label for="inputGamePlatform" class="col-md-2 control-label">Pelialusta</label>
-                <select name="Alusta">
-                    <option value="Playstation 3">Playstation 3</option>
-                    <option value="Tietokone">Tietokone</option>
-                    <option value="Wii">Wii</option>
+                    <label for="inputGameAlusta" class="col-md-2 control-label">Alusta</label>
+                    <select name="Alusta">
+                        <c:forEach var="Alusta" items="${alustat}">
+                            <option value="${Alusta.alusta}">${Alusta.alusta}</option>
+                        </c:forEach>
+                    </select>
 
-                </select>
+                </div>
 
             </div>
             <div class="form-group" ></div>
             <div class="col-md-offset-2 col-md-10">
-                <button type="submit" class="btn btn-default">Hyv√§ksy</button>
+                <button type="submit" class="btn btn-default">Hyv‰ksy</button>
             </div>
         </form>
     </div>

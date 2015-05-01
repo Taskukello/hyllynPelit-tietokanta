@@ -26,19 +26,19 @@
     </servlet>
     <servlet>
         <servlet-name>LisaaArvostelu</servlet-name>
-        <servlet-class>HyllynPelit.Servlets.LisaaArvostelu</servlet-class>
+        <servlet-class>HyllynPelit.Servlets.Lisays.LisaaArvostelu</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>MuokkaaArvosteluja</servlet-name>
-        <servlet-class>HyllynPelit.Servlets.MuokkaaArvosteluja</servlet-class>
+        <servlet-class>HyllynPelit.Servlets.Muokkaus.MuokkaaArvosteluja</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>PelinLisays</servlet-name>
-        <servlet-class>HyllynPelit.Servlets.PelinLisays</servlet-class>
+        <servlet-class>HyllynPelit.Servlets.Lisays.PelinLisays</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>PelinMuokkaus</servlet-name>
-        <servlet-class>HyllynPelit.Servlets.PelinMuokkaus</servlet-class>
+        <servlet-class>HyllynPelit.Servlets.Muokkaus.PelinMuokkaus</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>KirjauduUlos</servlet-name>
@@ -49,24 +49,20 @@
         <servlet-class>HyllynPelit.Servlets.ApuKirjaus</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>AlustanHaku</servlet-name>
-        <servlet-class>HyllynPelit.Servlets.AlustanHaku</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>Lisaa_Peli</servlet-name>
         <servlet-class>HyllynPelit.Servlets.Lisaa_Peli</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>Arvostelunlisaily</servlet-name>
-        <servlet-class>HyllynPelit.Servlets.Arvostelunlisaily</servlet-class>
+        <servlet-class>HyllynPelit.Servlets.Lisays.Arvostelunlisaily</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>KommentinLisays</servlet-name>
-        <servlet-class>HyllynPelit.Servlets.KommentinLisays</servlet-class>
+        <servlet-class>HyllynPelit.Servlets.Lisays.KommentinLisays</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>LisaaKommentti</servlet-name>
-        <servlet-class>HyllynPelit.Servlets.LisaaKommentti</servlet-class>
+        <servlet-class>HyllynPelit.Servlets.Lisays.LisaaKommentti</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>MuokkaaPelia</servlet-name>
@@ -75,10 +71,6 @@
     <servlet>
         <servlet-name>PelitValinnanUudelleenOhjaus</servlet-name>
         <servlet-class>ServletienApuServletit.PelitValinnanUudelleenOhjaus</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>ArvostelunPoisto</servlet-name>
-        <servlet-class>HyllynPelit.Servlets.ArvostelunPoisto</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ArvostelunMuokkaus</servlet-name>
@@ -90,11 +82,47 @@
     </servlet>
     <servlet>
         <servlet-name>KommentinMuokkausLook</servlet-name>
-        <servlet-class>HyllynPelit.Servlets.KommentinMuokkausLook</servlet-class>
+        <servlet-class>HyllynPelit.Servlets.Muokkaus.KommentinMuokkausLook</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>Kirjautuminen</servlet-name>
         <servlet-class>HyllynPelit.Servlets.Kirjautuminen</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>HakuToiminto</servlet-name>
+        <servlet-class>HyllynPelit.Servlets.haku.HakuToiminto</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>HakuTulokset</servlet-name>
+        <servlet-class>HyllynPelit.Servlets.haku.HakuTulokset</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>HakuToimintoArvostelut</servlet-name>
+        <servlet-class>HyllynPelit.Servlets.haku.HakuToimintoArvostelut</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>HakuTuloksetArvostelut</servlet-name>
+        <servlet-class>HyllynPelit.Servlets.haku.HakuTuloksetArvostelut</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>HakuToimintoKommentit</servlet-name>
+        <servlet-class>HyllynPelit.Servlets.haku.HakuToimintoKommentit</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>HakuTuloksetKommentit</servlet-name>
+        <servlet-class>HyllynPelit.Servlets.haku.HakuTuloksetKommentit</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Sign_up</servlet-name>
+        <servlet-class>HyllynPelit.Servlets.Sign_up</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LisaaTunnus</servlet-name>
+        <servlet-class>HyllynPelit.Servlets.Lisays.LisaaTunnus</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>PelinLisaysLook</servlet-name>
+        <servlet-class>HyllynPelit.Servlets.Lisays.PelinLisaysLook</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Pelit</servlet-name>
@@ -145,10 +173,6 @@
         <url-pattern>/ApuKirjaus</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>AlustanHaku</servlet-name>
-        <url-pattern>/AlustanHaku</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>Lisaa_Peli</servlet-name>
         <url-pattern>/Lisaa_Peli</url-pattern>
     </servlet-mapping>
@@ -173,10 +197,6 @@
         <url-pattern>/PelitValinnanUudelleenOhjaus</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>ArvostelunPoisto</servlet-name>
-        <url-pattern>/ArvostelunPoisto</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>ArvostelunMuokkaus</servlet-name>
         <url-pattern>/ArvostelunMuokkaus</url-pattern>
     </servlet-mapping>
@@ -191,6 +211,42 @@
     <servlet-mapping>
         <servlet-name>Kirjautuminen</servlet-name>
         <url-pattern>/Kirjautuminen</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HakuToiminto</servlet-name>
+        <url-pattern>/HakuToiminto</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HakuTulokset</servlet-name>
+        <url-pattern>/HakuTulokset</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HakuToimintoArvostelut</servlet-name>
+        <url-pattern>/HakuToimintoArvostelut</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HakuTuloksetArvostelut</servlet-name>
+        <url-pattern>/HakuTuloksetArvostelut</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HakuToimintoKommentit</servlet-name>
+        <url-pattern>/HakuToimintoKommentit</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HakuTuloksetKommentit</servlet-name>
+        <url-pattern>/HakuTuloksetKommentit</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Sign_up</servlet-name>
+        <url-pattern>/Sign_up</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LisaaTunnus</servlet-name>
+        <url-pattern>/LisaaTunnus</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PelinLisaysLook</servlet-name>
+        <url-pattern>/PelinLisaysLook</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -34,16 +34,14 @@ public class Login extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, NamingException, SQLException {
-        response.setContentType("text/html;charset=UTF-8");
+        response.setContentType("text/html;charset=ISO-8859-1");
         RequestDispatcher dispatcher = request.getRequestDispatcher("Kirjautuminen.jsp");
         String password = request.getParameter("Salasana");
         String tunnus = request.getParameter("Kayttajatunnus");
 
         HttpSession session = request.getSession();
         Kayttaja kayttajatiedot = Kayttaja.etsiKayttajaTunnuksilla(tunnus, password);
-        // UudelleenOhjaus lahde = (UudelleenOhjaus) session.getAttribute("lahde");
         String perkeleToimi = request.getParameter("lahde");
-        //  session.removeAttribute("lahde");
         if (kayttajatiedot != null) {
 
             if (perkeleToimi.trim().equals("Pelit")) {

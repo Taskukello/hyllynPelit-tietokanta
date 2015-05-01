@@ -4,4 +4,4 @@
 <link href="../css/main.css" rel="stylesheet">
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@attribute name="pageTitle"%>
-<div style="float: right"> ${KirjautumisTilanne}</div>
+<div  style="float: right">   ${KirjautumisTilanne}</div>

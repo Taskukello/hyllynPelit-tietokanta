@@ -1,15 +1,14 @@
-package HyllynPelit.Servlets;
+package HyllynPelit.Servlets.Lisays;
 
 import HyllynPelit.KommentinHaku;
 import HyllynPelit.Models.Kayttaja;
 import HyllynPelit.Models.OnkoKirjautunut;
-import HyllynPelit.Peli;
 import HyllynPelit.UudelleenOhjaus;
 import java.io.IOException;
 import java.io.PrintWriter;
+import static java.lang.Integer.parseInt;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.naming.NamingException;
@@ -24,7 +23,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author Aki
  */
-public class KommentinMuokkausLook extends HttpServlet {
+public class LisaaKommentti extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,24 +36,33 @@ public class KommentinMuokkausLook extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, NamingException, SQLException {
-        response.setContentType("text/html;charset=UTF-8");
+        response.setContentType("text/html;charset=ISO-8859-1");
         HttpSession session = request.getSession();
-
-        UudelleenOhjaus o = (UudelleenOhjaus) session.getAttribute("Nimi");
-
-        String perkele = o.getAtribuutti();
-
-        Peli peli = Peli.haePeli(perkele);
-        request.setAttribute("Nimi", peli.getPeli());
-
-        RequestDispatcher dispatcher = request.getRequestDispatcher("KommentinMuokkaus.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("KommentinLisays.jsp");
         Kayttaja kirjautunut = (Kayttaja) session.getAttribute("Kirjautunut");
         OnkoKirjautunut k = new OnkoKirjautunut();
         String palautus = k.onkoKirjautunut(kirjautunut);
         request.setAttribute("KirjautumisTilanne", palautus);
+        KommentinHaku uusiKommentti = new KommentinHaku();
 
-        request.setAttribute("kommentti", KommentinHaku.getKommentitTunnuksella(kirjautunut.getTunnus()).getKommentti());
-        dispatcher.forward(request, response);
+        uusiKommentti.setKommentti(request.getParameter("kommentti"));
+        uusiKommentti.setNimi(request.getParameter("PelinNimi"));
+
+        if (uusiKommentti.onkoKelvollinen() == true) {
+            
+            uusiKommentti.lisaaKommenttiKantaan(kirjautunut.getTunnus());
+
+            session.setAttribute("ilmoitus", "Uusi Kommentti lisätty onnistuneesti.");
+            session.removeAttribute("valinta");
+            UudelleenOhjaus o = new UudelleenOhjaus(uusiKommentti.getNimi());
+            session.setAttribute("tiedonsiirto", o);
+            response.sendRedirect("Kommentti");
+        } else {
+            Collection<String> virheet = uusiKommentti.getVirheet();
+            session.setAttribute("virheet", virheet);
+            session.setAttribute("arvostelut", uusiKommentti);
+            response.sendRedirect("KommentinLisays");
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -72,9 +80,9 @@ public class KommentinMuokkausLook extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (NamingException ex) {
-            Logger.getLogger(KommentinMuokkausLook.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LisaaKommentti.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(KommentinMuokkausLook.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LisaaKommentti.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -92,9 +100,9 @@ public class KommentinMuokkausLook extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (NamingException ex) {
-            Logger.getLogger(KommentinMuokkausLook.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LisaaKommentti.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(KommentinMuokkausLook.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LisaaKommentti.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

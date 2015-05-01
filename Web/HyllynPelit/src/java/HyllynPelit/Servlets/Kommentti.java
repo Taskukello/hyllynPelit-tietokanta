@@ -1,10 +1,12 @@
 package HyllynPelit.Servlets;
 
+import HyllynPelit.Arvostelu;
 import HyllynPelit.Models.Kayttaja;
 import HyllynPelit.Models.OnkoKirjautunut;
 import java.io.IOException;
 import java.io.PrintWriter;
 import HyllynPelit.KommentinHaku;
+import HyllynPelit.Peli;
 import HyllynPelit.UudelleenOhjaus;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -42,7 +44,7 @@ public class Kommentti extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, NamingException, SQLException {
-        response.setContentType("text/html;charset=UTF-8");
+        response.setContentType("text/html;charset=ISO-8859-1");
         HttpSession session = request.getSession();
 
         RequestDispatcher dispatcher = request.getRequestDispatcher("Kommentti.jsp");
@@ -63,6 +65,7 @@ public class Kommentti extends HttpServlet {
         int sivu = 1;
         int sivuja = 0;
         List<KommentinHaku> kommentit = new ArrayList<KommentinHaku>();
+        Peli peli = null;
 
         if (ohjaus == null) {
 
@@ -73,13 +76,13 @@ public class Kommentti extends HttpServlet {
                 ohjaus = new UudelleenOhjaus(ohjaus.getAtribuutti(), sivu);
 
                 kommentit = KommentinHaku.getKommentitSivulla(ohjaus.getAtribuutti(), sivu, yksiKommentti);
-
+                peli = Peli.haePeli(ohjaus.getAtribuutti());
                 int kommenttilkm = KommentinHaku.lkmNimella(ohjaus.getAtribuutti());
                 sivuja = (int) Math.ceil((double) kommenttilkm / yksiKommentti);
 
             } else {
                 ohjaus = new UudelleenOhjaus(request.getParameter("pelinNimi"), sivu);
-
+                peli = Peli.haePeli(request.getParameter("pelinNimi"));
                 kommentit = KommentinHaku.getKommentitSivulla(request.getParameter("pelinNimi"), sivu, yksiKommentti);
 
                 int kommenttilkm = KommentinHaku.lkmNimella(request.getParameter("pelinNimi"));
@@ -87,6 +90,7 @@ public class Kommentti extends HttpServlet {
             }
         } else {
             int kommenttilkm = KommentinHaku.lkmNimella(ohjaus.getAtribuutti());
+            peli = Peli.haePeli(ohjaus.getAtribuutti());
             sivuja = (int) Math.ceil((double) kommenttilkm / yksiKommentti);
             sivu = ohjaus.getSivunumero();
             String pelinNimi = ohjaus.getAtribuutti();
@@ -99,9 +103,13 @@ public class Kommentti extends HttpServlet {
             kommentit = KommentinHaku.getKommentitSivulla(pelinNimi, sivu, yksiKommentti);
 
         }
+
         ohjaus.setSivunumero(sivu);
         ohjaus.setSuurinSivuNumero(sivuja);
-
+        request.setAttribute("keskiarvo", peli.getKeskiarvo());
+        request.setAttribute("arvosteluita", Arvostelu.lukumaaraPelille(peli.getPeli()));
+        request.setAttribute("pelinjulkaisia", peli.getTekija());
+        request.setAttribute("pelinJvuosi", peli.getVuosi());
         request.setAttribute("pelinNimi", ohjaus.getAtribuutti());
         session.setAttribute("valinta", ohjaus);
         request.setAttribute("sivu", sivu);
@@ -113,9 +121,6 @@ public class Kommentti extends HttpServlet {
         dispatcher.forward(request, response);
 
     }
-    
-
-    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

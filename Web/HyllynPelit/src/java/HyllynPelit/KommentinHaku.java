@@ -172,13 +172,48 @@ public class KommentinHaku {
 
     }
 
-    public static KommentinHaku getKommentitTunnuksella(String tunnus) throws NamingException, SQLException {
+    public static List<KommentinHaku> getKommentitHakuSanalla(String hakuSana) throws NamingException, SQLException {
         Connection yhteys = Yhteys.getYhteys();
 
-        String sql = "SELECT PelinNimi, Kommentti, tunnus from Kommentti WHERE tunnus= ?";
+        String sql = "SELECT PelinNimi, Kommentti, tunnus from Kommentti WHERE LOWER(PelinNimi) LIKE ? OR LOWER(tunnus) LIKE ?";
+        PreparedStatement kysely = yhteys.prepareStatement(sql);
+        kysely.setString(1, "%" + hakuSana.toLowerCase() + "%");
+        kysely.setString(2, "%" + hakuSana.toLowerCase() + "%");
+
+        ResultSet rs = kysely.executeQuery();
+        ArrayList<KommentinHaku> kommentti = new ArrayList<KommentinHaku>();
+        while (rs.next()) {
+            KommentinHaku k = new KommentinHaku();
+            k.setNimi(rs.getString("PelinNimi"));
+            k.setKommentti(rs.getString("Kommentti"));
+            k.setTunnus(rs.getString("tunnus"));
+            kommentti.add(k);
+
+        }
+        try {
+            rs.close();
+        } catch (Exception e) {
+        }
+        try {
+            kysely.close();
+        } catch (Exception e) {
+        }
+        try {
+            yhteys.close();
+        } catch (Exception e) {
+        }
+
+        return kommentti;
+
+    }
+
+    public static KommentinHaku getKommentitTunnuksellaJaNimella(String tunnus, String pelinNimi) throws NamingException, SQLException {
+        Connection yhteys = Yhteys.getYhteys();
+
+        String sql = "SELECT PelinNimi, Kommentti, tunnus from Kommentti WHERE tunnus= ? AND pelinNimi = ?";
         PreparedStatement kysely = yhteys.prepareStatement(sql);
         kysely.setString(1, tunnus);
-
+        kysely.setString(2, pelinNimi);
         ResultSet rs = kysely.executeQuery();
 
         rs.next();
@@ -204,14 +239,14 @@ public class KommentinHaku {
 
     }
 
-    public void MuokkaaKommentia(String kayttis) throws NamingException, SQLException {
+    public void MuokkaaKommentia(String kayttis, String pelinNimi) throws NamingException, SQLException {
 
-        String sql = "UPDATE Kommentti set Kommentti = ? WHERE tunnus = ?";
+        String sql = "UPDATE Kommentti set Kommentti = ? WHERE tunnus = ? AND pelinNimi = ?";
         Connection yhteys = Yhteys.getYhteys();
         PreparedStatement kysely = yhteys.prepareStatement(sql);
         kysely.setString(1, this.getKommentti());
         kysely.setString(2, kayttis);
-
+        kysely.setString(3, pelinNimi);
         kysely.execute();
 
         try {
@@ -349,4 +384,3 @@ public class KommentinHaku {
 
     }
 }
-

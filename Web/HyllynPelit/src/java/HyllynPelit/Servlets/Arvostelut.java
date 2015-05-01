@@ -35,19 +35,20 @@ public class Arvostelut extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, NamingException, SQLException {
-        response.setContentType("text/html;charset=UTF-8");
+        response.setContentType("text/html;charset=ISO-8859-1");
         HttpSession session = request.getSession();
         session.removeAttribute("valinta");             //poistaa pelin tarkempien tietojen selailussa käytettyä atribuuttia
         String ilmoitus = (String) session.getAttribute("ilmoitus");
         if (ilmoitus != null) {
             session.removeAttribute("ilmoitus");
-
+            
             request.setAttribute("ilmoitus", ilmoitus);
         }
-        int maara = Arvostelu.lukumaara();
-        request.setAttribute("ArvosteluidenMaara", maara);
-
+        
         List<Arvostelu> arv = Arvostelu.getArvostelut();
+        int maara = arv.size();
+        request.setAttribute("ArvosteluidenMaara", maara);
+        
         request.setAttribute("arv", arv);
         RequestDispatcher dispatcher = request.getRequestDispatcher("Arvostelut.jsp");
         Kayttaja kirjautunut = (Kayttaja) session.getAttribute("Kirjautunut");
@@ -55,11 +56,13 @@ public class Arvostelut extends HttpServlet {
         String palautus = k.onkoKirjautunut(kirjautunut);
         request.setAttribute("KirjautumisTilanne", palautus);
         if (kirjautunut != null) {
-            List<Peli> pelit = Peli.haePelitTunnuksella(kirjautunut.getTunnus());
+            
+            List<Arvostelu> pelit = Arvostelu.getArvostelutTunnuksella(kirjautunut.getTunnus());
             request.setAttribute("pelit", pelit);
+            request.setAttribute("pelitKoko", pelit.size());
         }
         dispatcher.forward(request, response);
-
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
