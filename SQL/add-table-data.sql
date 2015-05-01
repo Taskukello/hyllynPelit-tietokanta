@@ -1,0 +1,23 @@
+INSERT INTO Kayttaja (tunnus, salasana, oikeudet) VALUES ('allMighty', 'KurpitsaHill0', 'Admin');
+INSERT INTO Kayttaja (tunnus, salasana, oikeudet) VALUES ('tyhjaArvo', 'tyhjaArvo', 'tyhjaArvo');
+
+INSERT INTO Pelialusta (Pelialusta) VALUES ('PC');
+INSERT INTO Pelialusta (Pelialusta) VALUES ('Xbox one');
+INSERT INTO Pelialusta (Pelialusta) VALUES ('Playstation 4');
+INSERT INTO Pelialusta (Pelialusta) VALUES ('Xbox 360');
+INSERT INTO Pelialusta (Pelialusta) VALUES ('Playstation 3');
+INSERT INTO Pelialusta (Pelialusta) VALUES ('Playstation 2');
+INSERT INTO Pelialusta (Pelialusta) VALUES ('Playstation 1');
+INSERT INTO Pelialusta (Pelialusta) VALUES ('Wii U');
+INSERT INTO Pelialusta (Pelialusta) VALUES ('Wii');
+INSERT INTO Pelialusta (Pelialusta) VALUES ('Xbox');
+INSERT INTO Pelialusta (Pelialusta) VALUES ('GameCube');
+INSERT INTO Pelialusta (Pelialusta) VALUES ('Game Boy Player');
+INSERT INTO Pelialusta (Pelialusta) VALUES ('Nintendo 64');
+INSERT INTO Pelialusta (Pelialusta) VALUES ('SNES');
+INSERT INTO Pelialusta (Pelialusta) VALUES ('NES');
+INSERT INTO Pelialusta (Pelialusta) VALUES ('Nintendo 3DS');
+INSERT INTO Pelialusta (Pelialusta) VALUES ('Playstation Vita');
+INSERT INTO Pelialusta (Pelialusta) VALUES ('Nintendo DS');
+INSERT INTO Pelialusta (Pelialusta) VALUES ('Game Boy Advance');
+INSERT INTO Pelialusta (Pelialusta) VALUES ('Game Boy');

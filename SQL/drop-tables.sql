@@ -1,1 +1,1 @@
-DROP TABLE Kommentti, ArvosteluKommentti, Arvostelu, Peli, Pelialusta;
+DROP TABLE Kommentti, Arvostelu, Peli, Pelialusta, Kayttaja;

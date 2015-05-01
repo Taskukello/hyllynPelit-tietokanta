@@ -10,6 +10,14 @@ CREATE TABLE Peli (
      Pelialusta varchar(50) references Pelialusta(Pelialusta) 
      );
 
+CREATE TABLE Kayttaja (
+     id SERIAL PRIMARY KEY,
+     tunnus varchar(50) NOT NULL,
+     salasana Varchar(50) NOT NULL,
+     oikeudet Varchar(50) NOT NULL,
+     UNIQUE (tunnus));
+
+
 CREATE TABLE Arvostelu (
      id SERIAL PRIMARY KEY,
      PelinNimi varchar(50) NOT NULL ,
@@ -18,16 +26,14 @@ CREATE TABLE Arvostelu (
      tunnus varchar(50) NOT NULL,
      CONSTRAINT Arvostelu_PelinNimi_fkey FOREIGN KEY (PelinNimi)
      REFERENCES Peli (PelinNimi) MATCH SIMPLE
+     ON UPDATE NO ACTION ON DELETE NO ACTION,
+     CONSTRAINT Arvostelu_tunnus_fkey FOREIGN KEY (tunnus)
+     REFERENCES Kayttaja (tunnus) MATCH SIMPLE
      ON UPDATE NO ACTION ON DELETE NO ACTION
-     );
-
-
-CREATE TABLE ArvosteluKommentti (
-     Arvostelun_ID INTEGER REFERENCES Arvostelu(id),
-     kuvailu varchar(300) NOT NULL
      
-
      );
+
+
 
 CREATE TABLE Kommentti (
      id SERIAL PRIMARY KEY,
@@ -39,17 +45,13 @@ CREATE TABLE Kommentti (
      ON UPDATE NO ACTION ON DELETE NO ACTION,
      CONSTRAINT Kommentti_tunnus_fkey FOREIGN KEY (tunnus)
      REFERENCES Kayttaja (tunnus) MATCH SIMPLE
-     ON UPDATE NO ACTION ON DELETE NO ACTION,
-     UNIQUE (tunnus)
+     ON UPDATE NO ACTION ON DELETE NO ACTION
      );
 
 
 
-CREATE TABLE Kayttaja (
-     id SERIAL PRIMARY KEY,
-     tunnus varchar(50),
-     salasana Varchar(50)
 
-     );
+
+
 
 
